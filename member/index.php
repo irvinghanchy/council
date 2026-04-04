@@ -83,7 +83,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
         <div id="speech-area">
           <button id="speech-btn" onclick="requestSpeech()"
                   class="btn btn-primary w-full btn-lg">
-            🎤 申請發言
+            🎤 請求發言地位
           </button>
           <button id="cancel-speech-btn" onclick="cancelSpeech()"
                   class="btn btn-outline w-full hidden mt-2">

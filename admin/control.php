@@ -216,7 +216,7 @@ $mid = $meeting['id'];
       <div id="attendance-stats" class="text-sm space-y-1">
         <div>應出席：<span id="total-attendees">—</span> 人</div>
         <div>已簽到：<span id="signed-in" class="font-bold text-green-600">—</span> 人</div>
-        <div>缺席：<span id="absent" class="font-bold text-red-500">—</span> 人</div>
+        <div>缺　席：<span id="absent" class="font-bold text-red-500">—</span> 人</div>
       </div>
     </div>
   </div>

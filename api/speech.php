@@ -10,7 +10,7 @@ if (!$meeting_id) json_err('Missing meeting_id');
 
 $pdo = db();
 
-// ── 申請發言（議員） ──────────────────────────────────────────
+// ── 請求發言地位（議員） ──────────────────────────────────────────
 if ($action === 'request') {
     require_member();
     $member_id      = (int)($_POST['member_id'] ?? 0);
