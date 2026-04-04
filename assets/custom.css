@@ -1,0 +1,24 @@
+/* ═══════════════════════════════════════════════════
+    自訂樣式 — 覆蓋 DaisyUI / Tailwind
+   ═══════════════════════════════════════════════════ */
+
+/* Webfont */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Emoji:wght@300..700&display=swap');
+
+:root {
+  --font-body: 'Noto Sans TC', 'Arial', sans-serif;
+}
+
+body, .btn, .input, .select, .textarea, .card, .badge, .alert {
+  font-family: var(--font-body) !important;
+}
+
+/* 停用按鈕跳動（一次解決所有頁面） */
+.btn {
+  transform: none !important;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s !important;
+}
+.btn:active { transform: scale(0.97) !important; }
+
+/* 可加入其他自訂... */
