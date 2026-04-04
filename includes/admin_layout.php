@@ -52,7 +52,7 @@ $meeting = active_meeting();
     <ul class="menu menu-horizontal px-1 gap-1">
       <li><a href="<?= BASE_URL ?>/admin/index.php" class="hover:bg-blue-800 rounded-lg">🏠 總覽</a></li>
       <li><a href="<?= BASE_URL ?>/admin/setup.php" class="hover:bg-blue-800 rounded-lg">🔧 會議設定</a></li>
-      <li><a href="<?= BASE_URL ?>/admin/members.php" class="hover:bg-blue-800 rounded-lg">👥 成員</a></li>
+      <li><a href="<?= BASE_URL ?>/admin/members.php" class="hover:bg-blue-800 rounded-lg">👥 與會成員</a></li>
       <li><a href="<?= BASE_URL ?>/admin/agenda.php" class="hover:bg-blue-800 rounded-lg">📋 議程</a></li>
       <li>
         <a href="<?= BASE_URL ?>/admin/control.php"
@@ -73,7 +73,7 @@ $meeting = active_meeting();
     <?php endif; ?>
     <div class="dropdown dropdown-end">
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-        <div class="w-8 rounded-full bg-blue-700 flex items-center justify-center text-sm font-bold">
+        <div class="w-8 rounded-full bg-blue-700 flex items-center justify-center text-sm font-bold content-center">
           <?= mb_substr($_SESSION['user_name'] ?? 'A', 0, 1) ?>
         </div>
       </label>
