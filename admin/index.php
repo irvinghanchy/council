@@ -25,12 +25,12 @@ if ($mtg) {
 }
 ?>
 
-<h1 class="text-3xl font-bold mb-6">🏠 後台總覽</h1>
+<h1 class="text-3xl font-bold mb-6"><span class="font-emoji">🏠</span> 後台總覽</h1>
 
 <?php if (!$mtg): ?>
-<div class="alert alert-warning mb-6">
+<div class="alert alert-warning mb-6 font-emoji">
   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-  尚未建立會議。請先到「⚙️ 會議設定」建立會議。
+  尚未建立會議。請先到「🔧會議設定」建立會議。
 </div>
 <a href="<?= BASE_URL ?>/admin/setup.php" class="btn btn-primary">前往建立會議 →</a>
 

@@ -114,23 +114,23 @@ $type_labels = [
 <div class="xl:col-span-1">
   <div class="card bg-base-100 shadow">
     <div class="card-body">
-      <h2 class="card-title"><span class="font-emoji">➕</span>新增議程項目</h2>
+      <h2 class="card-title">➕ 新增議程項目</h2>
       <form method="POST" class="space-y-3" id="add-form">
         <input type="hidden" name="action" value="add_item">
         <label class="form-control">
           <div class="label"><span class="label-text font-semibold">類型</span></div>
           <select name="item_type" class="select select-bordered select-sm" id="type-select"
                   onchange="toggleElectionField(this.value)">
-            <option value="report"><span class="font-emoji">📣</span>報告事項</option>
-            <option value="resolution"><span class="font-emoji">🗳️</span>案由（表決）</option>
-            <option value="election"><span class="font-emoji">🏆</span>選舉</option>
-            <option value="temp"><span class="font-emoji">📝</span>臨時動議</option>
+            <option value="report">📣 報告事項</option>
+            <option value="resolution">🗳️ 案由（表決）</option>
+            <option value="election">🏆 選舉</option>
+            <option value="temp">📝 臨時動議</option>
           </select>
         </label>
         <label class="form-control">
           <div class="label"><span class="label-text font-semibold">標題 *</span></div>
           <input name="title" type="text" class="input input-bordered input-sm"
-                 placeholder="例：議長報告 / 修改章程案" required>
+                 placeholder="例：議長報告／修改章程案" required>
         </label>
         <label class="form-control">
           <div class="label"><span class="label-text font-semibold">說明／內文</span></div>
@@ -159,7 +159,7 @@ $type_labels = [
 <div class="xl:col-span-2">
   <div class="card bg-base-100 shadow">
     <div class="card-body p-4">
-      <h2 class="card-title mb-4"><span class="font-emoji">📋</span>議程清單（<?= count($items) ?> 項）</h2>
+      <h2 class="card-title mb-4">📋 議程清單（<?= count($items) ?> 項）</h2>
 
       <?php if (!$items): ?>
       <div class="text-center text-gray-400 py-8">尚未新增任何議程項目</div>
@@ -186,7 +186,7 @@ $type_labels = [
 
           <?php if ($it['type'] === 'election'): ?>
           <div class="bg-base-200 p-3 rounded-lg mb-3">
-            <div class="text-sm font-semibold mb-2"><span class="font-emoji">🏆</span>應選 <?= $it['seats'] ?> 人 — 候選人管理</div>
+            <div class="text-sm font-semibold mb-2">🏆 應選 <?= $it['seats'] ?> 人 — 候選人管理</div>
 
             <?php
             $cands = $pdo->prepare(
@@ -245,7 +245,7 @@ $type_labels = [
           <form method="POST" onsubmit="return confirm('確定刪除此議程項目？')">
             <input type="hidden" name="action" value="delete_item">
             <input type="hidden" name="id" value="<?= $it['id'] ?>">
-            <button class="btn btn-xs btn-error btn-outline"><span class="font-emoji">🗑</span>刪除此項目</button>
+            <button class="btn btn-xs btn-error btn-outline">🗑 刪除此項目</button>
           </form>
         </div>
       </div>
