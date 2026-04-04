@@ -104,7 +104,7 @@ $meeting = active_meeting();
 
 <!-- Timer -->
 <div id="timer-bar" class="hidden px-6 py-4 border-b border-gray-800 bg-black text-center">
-  <div id="screen-timer-label" class="text-gray-500 text-sm mb-1"></div>
+  <div id="screen-timer-label" class="text-gray-400 text-sm mb-1"></div>
   <div id="screen-timer-countdown" class="text-7xl font-mono font-bold"></div>
 </div>
 
