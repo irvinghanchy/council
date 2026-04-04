@@ -30,22 +30,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <title>主辦人登入</title>
 <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/custom.css">
 </head>
 <body class="bg-base-200 min-h-screen flex items-center justify-center">
 <div class="card w-96 bg-base-100 shadow-xl">
   <div class="card-body">
-    <h2 class="card-title text-2xl justify-center mb-4">🏛️ 系統管理員登入</h2>
+    <h2 class="card-title text-2xl justify-center mb-4"><span class="font-emoji">📺</span> 系統管理員登入</h2>
     <?php if ($err): ?>
     <div class="alert alert-error text-sm"><?= h($err) ?></div>
     <?php endif; ?>
     <form method="POST">
       <label class="form-control mb-3">
         <div class="label"><span class="label-text">帳號</span></div>
-        <input name="username" type="text" class="input input-bordered" placeholder="admin" required>
+        <input name="username" type="text" class="input input-bordered" placeholder="帳號" required>
       </label>
       <label class="form-control mb-4">
         <div class="label"><span class="label-text">密碼</span></div>
-        <input name="password" type="password" class="input input-bordered" required>
+        <input name="password" type="password" class="input input-bordered" placeholder="密碼" required>
       </label>
       <button class="btn btn-primary w-full">登入</button>
     </form>
