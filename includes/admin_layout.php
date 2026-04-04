@@ -39,7 +39,14 @@ $meeting = active_meeting();
         <?php endif; ?>
       </ul>
     </div>
-    <a href="<?= BASE_URL ?>/admin/index.php" class="btn btn-ghost text-xl font-bold">🏛️ 議事系統</a>
+    <a href="<?= BASE_URL ?>/admin/index.php" class="btn btn-ghost text-xl font-bold">
+      <div class="avatar h-8 my-auto -ml-2 lg:ml-0">
+        <div class="rounded-full">
+          <img src="<?= BASE_URL ?>/assets/ASHSSP Logo.png" />
+        </div>
+      </div>
+      議事系統
+    </a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1 gap-1">
@@ -78,7 +85,7 @@ $meeting = active_meeting();
   </div>
 </div>
 
-<div class="container mx-auto px-4 py-6 max-w-7xl">
+<div class="container mx-auto px-4 py-6 max-w-7xl min-h-[calc(100svh-64px)] lg:min-h-[calc(100svh-68px)]">
 
 
 <script>

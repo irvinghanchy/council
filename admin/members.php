@@ -131,8 +131,8 @@ $observers = $observers->fetchAll();
         <label class="form-control">
           <div class="label"><span class="label-text">類型</span></div>
           <select name="type" class="select select-bordered select-sm">
-            <option value="attendee">出席人（議員，有表決權）</option>
-            <option value="observer">列席人（無表決權）</option>
+            <option value="attendee">出席（議員，有表決權）</option>
+            <option value="observer">列席（無表決權）</option>
           </select>
         </label>
         <button class="btn btn-primary btn-sm w-full">新增</button>
@@ -146,7 +146,7 @@ $observers = $observers->fetchAll();
       <h2 class="card-title text-lg">📥 批次匯入</h2>
       <p class="text-xs text-gray-500 mb-2">每行格式：<br>
         <code>學號, 姓名, 職位, 類型</code><br>
-        類型可填 attendee 或 observer（省略預設 attendee）
+        類型可填 <code>attendee</code> 或 <code>observer</code>（省略預設 <code>attendee</code>）
       </p>
       <form method="POST">
         <input type="hidden" name="action" value="batch">
@@ -162,7 +162,7 @@ $observers = $observers->fetchAll();
 <div class="xl:col-span-2 space-y-6">
   <div class="card bg-base-100 shadow">
     <div class="card-body p-4">
-      <h2 class="card-title text-lg mb-3">🗳️ 出席人（議員）—— <?= count($attendees) ?> 人</h2>
+      <h2 class="card-title text-lg mb-3">🤝 出席人—— <?= count($attendees) ?> 人</h2>
       <div class="overflow-x-auto">
         <table class="table table-sm">
           <thead>
@@ -204,7 +204,7 @@ $observers = $observers->fetchAll();
 
   <div class="card bg-base-100 shadow">
     <div class="card-body p-4">
-      <h2 class="card-title text-lg mb-3">👁️ 列席人 —— <?= count($observers) ?> 人</h2>
+      <h2 class="card-title text-lg mb-3">👂 列席人 —— <?= count($observers) ?> 人</h2>
       <div class="overflow-x-auto">
         <table class="table table-sm">
           <thead>

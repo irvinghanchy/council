@@ -68,7 +68,7 @@ if ($action === 'activate' && $meeting) {
 <!-- 建立 / 編輯會議 -->
 <div class="card bg-base-100 shadow">
   <div class="card-body">
-    <h2 class="card-title"><?= $meeting ? '✏️ 編輯會議資料' : '➕ 建立新會議' ?></h2>
+    <h2 class="card-title"><?= $meeting ? '📝 編輯會議資料' : '➕ 建立新會議' ?></h2>
     <form method="POST" class="space-y-4">
       <input type="hidden" name="action" value="<?= $meeting ? 'update' : 'create' ?>">
 
@@ -108,7 +108,7 @@ if ($action === 'activate' && $meeting) {
   <?php if ($meeting): ?>
   <div class="card bg-base-100 shadow">
     <div class="card-body">
-      <h2 class="card-title">🎚️ 會議狀態</h2>
+      <h2 class="card-title">⛔ 會議狀態</h2>
       <div class="flex items-center gap-3 mb-4">
         <div class="badge badge-lg <?= $meeting['status']==='active' ? 'badge-success' : ($meeting['status']==='preparing' ? 'badge-warning' : 'badge-ghost') ?>">
           <?= ['preparing'=>'準備中','active'=>'進行中','ended'=>'已結束'][$meeting['status']] ?? $meeting['status'] ?>
