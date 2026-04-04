@@ -193,7 +193,7 @@ function updateScreen(data) {
     const phaseInfo = {
         standby:     {label:'⏳ 待機/簽到',   cls:'badge-ghost'},
         agenda:      {label:'📣 議程',         cls:'badge-info'},
-        resolution:  {label:'🗳️ 表決',         cls:'badge-warning'},
+        resolution:  {label:'🪧 表決',         cls:'badge-warning'},
         election:    {label:'🏆 選舉',         cls:'badge-secondary'},
         temp_motion: {label:'📝 臨時動議',      cls:'badge-ghost'},
         ended:       {label:'✅ 會議結束',      cls:'badge-success'},

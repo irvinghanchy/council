@@ -81,7 +81,7 @@ $mid = $meeting['id'];
   <!-- 表決控制 -->
   <div id="vote-panel" class="card bg-base-100 shadow hidden">
     <div class="card-body p-4">
-      <h3 class="font-bold text-lg mb-3">🗳️ 表決控制</h3>
+      <h3 class="font-bold text-lg mb-3">🪧 表決控制</h3>
       <div id="vote-stats" class="grid grid-cols-3 gap-3 mb-4">
         <div class="stat bg-green-50 rounded p-3 text-center">
           <div class="text-xs text-gray-500">同意</div>
@@ -306,7 +306,7 @@ function updateUI(data) {
     // Phase label
     const phaseNames = {
         standby:'⏳ 待機/簽到', agenda:'📣 議程',
-        resolution:'🗳️ 表決', election:'🏆 選舉',
+        resolution:'🪧 表決', election:'🏆 選舉',
         temp_motion:'📝 臨時動議', ended:'✅ 已結束'
     };
     document.getElementById('current-phase').textContent = phaseNames[phase.phase_type] || phase.phase_type;
@@ -319,7 +319,7 @@ function updateUI(data) {
     const nav = document.getElementById('agenda-nav');
     nav.innerHTML = agenda_list.map(ag => {
         const active = ag.id == phase.agenda_item_id;
-        const icons = {report:'📣', resolution:'🗳️', election:'🏆', temp:'📝'};
+        const icons = {report:'📣', resolution:'🪧', election:'🏆', temp:'📝'};
         return `<button onclick="switchToItem(${ag.id}, '${ag.type}')"
                   class="btn btn-xs w-full justify-start ${active ? 'btn-primary' : 'btn-ghost'}">
                   ${icons[ag.type]||'•'} ${escHtml(ag.title)}

@@ -99,7 +99,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
     <!-- 表決 -->
     <div id="panel-resolution" class="hidden card bg-base-100 shadow">
       <div class="card-body">
-        <div class="text-sm text-orange-600 font-semibold mb-1">🗳️ 表決進行中</div>
+        <div class="text-sm text-orange-600 font-semibold mb-1">🪧 表決進行中</div>
         <h2 id="resolution-title" class="text-xl font-bold mb-2"></h2>
         <p id="resolution-desc" class="text-gray-600 text-sm mb-6"></p>
 

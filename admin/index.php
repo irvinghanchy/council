@@ -17,7 +17,7 @@ if ($mtg) {
     $phase_labels = [
         'standby'     => '⏳ 待機中（簽到）',
         'agenda'      => '📣 議程進行中',
-        'resolution'  => '🗳️ 表決中',
+        'resolution'  => '🪧 表決中',
         'election'    => '🏆 選舉中',
         'temp_motion' => '📝 臨時動議',
         'ended'       => '✅ 會議結束',
