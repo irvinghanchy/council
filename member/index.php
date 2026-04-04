@@ -17,7 +17,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>議員介面 | 議事系統</title>
+<title>會議介面 | 議事系統</title>
 <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -33,8 +33,17 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
 
 <!-- Top Bar -->
 <div class="navbar bg-blue-950 text-white px-4 sticky top-0 z-50">
-  <div class="flex-1">
-    <span class="font-bold text-lg">🏛️ 議事系統</span>
+  <div class="flex-1 items-center">
+    <span class="font-bold text-lg flex items-center">
+      <div class="avatar h-8 my-auto mx-2">
+        <div class="rounded-full">
+          <img src="<?= BASE_URL ?>/assets/ASHSSP Logo.png" />
+        </div>
+      </div>
+      <span class="my-auto">
+        議事系統
+      </span>
+    </span>
     <span class="text-blue-300 text-sm ml-3">
       <?= h($name) ?>
       <?= $role === 'observer' ? '<span class="badge badge-sm badge-secondary ml-1">列席</span>' : '' ?>
@@ -68,7 +77,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
         <div class="text-5xl mb-3">⏳</div>
         <h2 class="text-xl font-bold text-gray-600">會議待機中</h2>
         <p class="text-gray-400">請等候主辦人開始程序</p>
-        <div class="badge badge-success badge-lg mt-4">✅ 您已成功簽到</div>
+        <div class="badge badge-success badge-lg mt-4">✅ 簽到成功</div>
       </div>
     </div>
 
@@ -104,7 +113,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
         <p id="resolution-desc" class="text-gray-600 text-sm mb-6"></p>
 
         <?php if ($role === 'member'): ?>
-        <div id="vote-buttons" class="grid grid-cols-3 gap-3 mb-4">
+        <div id="vote-buttons" class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
           <button onclick="submitVote('yes')"
                   class="btn btn-success btn-lg h-24 flex-col gap-1">
             <span class="text-3xl">✅</span>
@@ -125,7 +134,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
           <span id="vote-done-text"></span>
         </div>
         <?php else: ?>
-        <div class="alert alert-info">列席人員無表決權</div>
+        <div class="alert alert-info">列席人無表決權</div>
         <?php endif; ?>
 
         <!-- 即時票數（給列席人和已投票者看） -->
@@ -164,7 +173,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
           ✅ 您已完成投票
         </div>
         <?php else: ?>
-        <div class="alert alert-info">列席人員無投票權</div>
+        <div class="alert alert-info">列席人無投票權</div>
         <?php endif; ?>
 
         <div id="election-candidates-result" class="space-y-1 mt-4 hidden">
@@ -194,7 +203,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
       <div class="card-body items-center text-center py-10">
         <div class="text-5xl mb-3">🎉</div>
         <h2 class="text-xl font-bold">會議已結束</h2>
-        <p class="text-gray-500 mt-2">感謝您的參與！</p>
+        <p class="text-gray-500 mt-2">感謝您的參與！<br>也別忘了登出您的帳號</p>
       </div>
     </div>
 
