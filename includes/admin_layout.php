@@ -30,7 +30,7 @@ $meeting = active_meeting();
       </label>
       <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 text-base-content rounded-box w-52">
         <li><a href="<?= BASE_URL ?>/admin/index.php">🏠 總覽</a></li>
-        <li><a href="<?= BASE_URL ?>/admin/setup.php">⚙️ 會議設定</a></li>
+        <li><a href="<?= BASE_URL ?>/admin/setup.php">🔧 會議設定</a></li>
         <li><a href="<?= BASE_URL ?>/admin/members.php">👥 成員管理</a></li>
         <li><a href="<?= BASE_URL ?>/admin/agenda.php">📋 議程管理</a></li>
         <li><a href="<?= BASE_URL ?>/admin/control.php">🎛️ 現場控制</a></li>
@@ -44,7 +44,7 @@ $meeting = active_meeting();
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1 gap-1">
       <li><a href="<?= BASE_URL ?>/admin/index.php" class="hover:bg-blue-800 rounded-lg">🏠 總覽</a></li>
-      <li><a href="<?= BASE_URL ?>/admin/setup.php" class="hover:bg-blue-800 rounded-lg">⚙️ 會議設定</a></li>
+      <li><a href="<?= BASE_URL ?>/admin/setup.php" class="hover:bg-blue-800 rounded-lg">🔧 會議設定</a></li>
       <li><a href="<?= BASE_URL ?>/admin/members.php" class="hover:bg-blue-800 rounded-lg">👥 成員</a></li>
       <li><a href="<?= BASE_URL ?>/admin/agenda.php" class="hover:bg-blue-800 rounded-lg">📋 議程</a></li>
       <li>

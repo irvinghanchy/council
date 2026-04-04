@@ -57,7 +57,7 @@ if ($action === 'activate' && $meeting) {
 }
 ?>
 
-<h1 class="text-3xl font-bold mb-6">⚙️ 會議設定</h1>
+<h1 class="text-3xl font-bold mb-6">🔧 會議設定</h1>
 
 <?php if ($msg): ?>
 <div class="alert <?= str_starts_with($msg,'✅') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
