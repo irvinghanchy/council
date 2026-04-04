@@ -23,7 +23,7 @@ $err_map = [
     'oauth_denied' => '已取消 Google 登入。',
     'oauth_fail'   => 'Google 登入失敗，請稍後再試。',
     'wrong_domain' => '請使用學校（@' . ALLOWED_DOMAIN . '）信箱登入。',
-    'not_in_list'  => '您的帳號不在本次會議名單中，請聯絡主辦人。',
+    'not_in_list'  => '您的帳號不在本次會議名單中，請聯絡會議主辦人。',
     'no_meeting'   => '目前沒有進行中的會議。',
 ];
 $err = $err_map[$_GET['err'] ?? ''] ?? '';
@@ -33,15 +33,21 @@ $err = $err_map[$_GET['err'] ?? ''] ?? '';
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>線上議事系統</title>
+<title>高師大附中學生議會線上議事系統</title>
 <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/custom.css">
 </head>
 <body class="bg-gradient-to-br from-blue-950 to-slate-900 min-h-screen flex items-center justify-center p-4">
 <div class="text-center">
-  <div class="text-6xl mb-4">🏛️</div>
+  <!-- <div class="text-6xl mb-4 font-emoji">🏛️</div> -->
+  <div class="avatar mb-4">
+    <div class="w-52 rounded-full">
+      <img src="<?= BASE_URL ?>/assets/ASHSSP Logo.png" />
+    </div>
+  </div>
   <h1 class="text-4xl font-bold text-white mb-2">線上議事系統</h1>
-  <p class="text-blue-300 mb-8 text-lg">學生代表大會議事輔助平台</p>
+  <p class="text-blue-300 mb-8 text-lg">高師大附中學生議會議事輔助平台</p>
 
   <?php if ($err): ?>
   <div class="alert alert-error mb-6 max-w-sm mx-auto">
@@ -60,7 +66,7 @@ $err = $err_map[$_GET['err'] ?? ''] ?? '';
         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
       </svg>
-      議員 Google 登入（簽到）
+      Google 登入（簽到）
     </a>
 
     <!-- 主辦人登入 -->
@@ -73,9 +79,9 @@ $err = $err_map[$_GET['err'] ?? ''] ?? '';
     </a>
 
     <!-- 大螢幕（提示） -->
-    <div class="text-blue-400 text-sm mt-4">
+    <!-- <div class="text-blue-400 text-sm mt-4">
       大螢幕請在網址後加上 <code class="bg-blue-900 px-2 py-0.5 rounded">?pin=XXXX</code>
-    </div>
+    </div> -->
   </div>
 </div>
 </body>

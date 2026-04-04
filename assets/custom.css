@@ -5,9 +5,10 @@
 /* Webfont */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Emoji:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 :root {
-  --font-body: 'Noto Sans TC', 'Arial', sans-serif;
+  --font-body: 'Lato', 'Noto Sans TC', 'Arial', sans-serif;
 }
 
 body, .btn, .input, .select, .textarea, .card, .badge, .alert {
@@ -21,4 +22,7 @@ body, .btn, .input, .select, .textarea, .card, .badge, .alert {
 }
 .btn:active { transform: scale(0.97) !important; }
 
-/* 可加入其他自訂... */
+/* SP 自訂樣式 */
+.font-emoji{
+  font-family: 'Noto Emoji', sans-serif;
+}
