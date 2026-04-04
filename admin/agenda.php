@@ -122,7 +122,7 @@ $type_labels = [
           <select name="item_type" class="select select-bordered select-sm" id="type-select"
                   onchange="toggleElectionField(this.value)">
             <option value="report">📣 報告事項</option>
-            <option value="resolution">🪧🪧 案由（表決）</option>
+            <option value="resolution">🪧 案由（表決）</option>
             <option value="election">🏆 選舉</option>
             <option value="temp">📝 臨時動議</option>
           </select>
