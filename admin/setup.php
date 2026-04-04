@@ -122,7 +122,7 @@ if ($action === 'activate' && $meeting) {
         <button class="btn btn-success w-full">▶ 開始會議（進入待機/簽到）</button>
       </form>
       <?php elseif ($meeting['status'] === 'active'): ?>
-      <a href="<?= BASE_URL ?>/admin/control.php" class="btn btn-primary w-full mb-2">🎛️ 前往現場控制台</a>
+      <a href="<?= BASE_URL ?>/admin/control.php" class="btn btn-primary w-full mb-2">🛑 前往現場控制台</a>
       <form method="POST" onsubmit="return confirm('確定要結束本次會議？結束後無法再切換階段。')">
         <input type="hidden" name="action" value="end_meeting">
         <button class="btn btn-error btn-outline w-full">⏹ 結束會議</button>

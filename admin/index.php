@@ -53,7 +53,7 @@ if ($mtg) {
           <button class="btn btn-success">▶ 開始會議（進入待機）</button>
         </form>
         <?php elseif ($mtg['status'] === 'active'): ?>
-        <a href="<?= BASE_URL ?>/admin/control.php" class="btn btn-primary">🎛️ 進入現場控制台</a>
+        <a href="<?= BASE_URL ?>/admin/control.php" class="btn btn-primary">🛑 進入現場控制台</a>
         <a href="<?= BASE_URL ?>/screen/index.php?pin=<?= SCREEN_PIN ?>" target="_blank" class="btn btn-outline">📺 大螢幕</a>
         <?php endif; ?>
         <a href="<?= BASE_URL ?>/api/export_txt.php?meeting_id=<?= $mtg['id'] ?>" class="btn btn-outline btn-sm">📄 匯出紀錄</a>
@@ -117,7 +117,7 @@ if ($mtg) {
   </a>
   <a href="<?= BASE_URL ?>/admin/control.php" class="card bg-base-100 shadow hover:shadow-lg transition-shadow">
     <div class="card-body items-center text-center">
-      <div class="text-4xl">🎛️</div>
+      <div class="text-4xl">🛑</div>
       <h3 class="card-title">現場控制台</h3>
       <p class="text-gray-500 text-sm">切換階段、管理表決、發言佇列</p>
     </div>

@@ -33,7 +33,7 @@ $meeting = active_meeting();
         <li><a href="<?= BASE_URL ?>/admin/setup.php">🔧 會議設定</a></li>
         <li><a href="<?= BASE_URL ?>/admin/members.php">👥 成員管理</a></li>
         <li><a href="<?= BASE_URL ?>/admin/agenda.php">📋 議程管理</a></li>
-        <li><a href="<?= BASE_URL ?>/admin/control.php">🎛️ 現場控制</a></li>
+        <li><a href="<?= BASE_URL ?>/admin/control.php">🛑 現場控制</a></li>
         <?php if (current_role() === 'admin'): ?>
         <li><a href="<?= BASE_URL ?>/admin/hosts.php">🔑 主辦人帳號</a></li>
         <?php endif; ?>
@@ -50,7 +50,7 @@ $meeting = active_meeting();
       <li>
         <a href="<?= BASE_URL ?>/admin/control.php"
            class="hover:bg-blue-800 rounded-lg <?= str_contains($_SERVER['PHP_SELF'],'control') ? 'bg-blue-700' : '' ?>">
-          🎛️ 現場控制
+          🛑 現場控制
         </a>
       </li>
       <?php if (current_role() === 'admin'): ?>

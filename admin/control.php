@@ -21,7 +21,7 @@ $mid = $meeting['id'];
 <!-- 頂部會議資訊 -->
 <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
   <div>
-    <h1 class="text-2xl font-bold">🎛️ 現場控制台</h1>
+    <h1 class="text-2xl font-bold">🛑 現場控制台</h1>
     <span id="elapsed-timer" class="badge badge-lg badge-ghost font-mono text-lg">00:00:00</span>
     <p class="text-gray-500 text-sm"><?= h($meeting['title']) ?> &nbsp;|&nbsp; <?= h($meeting['location']) ?></p>
   </div>
