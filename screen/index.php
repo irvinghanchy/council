@@ -29,7 +29,8 @@ $meeting = active_meeting();
   @keyframes blink-anim { 0%,100%{opacity:1} 50%{opacity:.3} }
 
   /* 顏色狀態 */
-  .status-absent  { background:#374151; color:#9CA3AF; }
+  /* .status-absent  { background:#374151; color:#9CA3AF; } */
+  .status-absent  { background:#1d2229; color:#677282; }
   .status-present { background:#1F2937; color:#E5E7EB; }
   .status-yes     { background:#166534; color:#BBF7D0; }
   .status-no      { background:#991B1B; color:#FECACA; }
@@ -48,15 +49,17 @@ $meeting = active_meeting();
 
 <!-- Top Bar -->
 <div id="top-bar" class="flex items-center justify-between px-6 py-3 border-b border-gray-800">
+  <!-- 左欄：會議事由、地點、時間 -->
   <div>
-    <div id="screen-meeting-title" class="text-xl font-bold text-blue-300"></div>
+    <div id="screen-meeting-title" class="text-2xl font-bold text-blue-300"></div>
     <div class="flex gap-4 text-sm text-gray-400 mt-1">
       <span id="screen-location">📍 —</span>
       <span id="screen-time">🕐 —</span>
     </div>
   </div>
+  <!-- 右欄：現在時間、經過時間、全螢幕按鈕 -->
   <div class="flex items-center gap-4">
-    <div id="screen-clock" class="text-3xl font-mono text-gray-300"></div>
+    <div id="screen-clock" class="text-lg font-mono font-semibold text-gray-300"></div>
     <div id="screen-elapsed" class="text-lg font-mono text-blue-400"></div>
     <button onclick="toggleFullscreen()"
             class="btn btn-sm btn-outline text-gray-400 border-gray-600 hover:bg-gray-800">
@@ -68,7 +71,7 @@ $meeting = active_meeting();
 <!-- Phase Banner -->
 <div id="phase-banner" class="px-6 py-4 border-b border-gray-800">
   <div class="flex items-center gap-4">
-    <div id="phase-badge" class="badge badge-lg text-lg px-4 py-4"></div>
+    <div id="phase-badge" class="badge badge-lg text-lg font-semibold px-4 py-4"></div>
     <div>
       <div id="phase-item-title" class="text-2xl font-bold"></div>
       <div id="phase-item-desc" class="text-gray-400 text-sm mt-1"></div>
@@ -117,20 +120,20 @@ $meeting = active_meeting();
 <!-- Members Grid -->
 <div class="flex-1 p-4 overflow-hidden">
   <!-- Attendees -->
-  <div id="members-grid" class="grid gap-2 mb-4"
-       style="grid-template-columns: repeat(auto-fill, minmax(120px, 1fr))"></div>
+  <div id="members-grid" class="grid gap-4 mb-4"
+       style="grid-template-columns: repeat(auto-fill, minmax(180px, 2fr))"></div>
 
   <!-- Separator + Observers -->
   <div id="observers-section" class="hidden">
     <div class="text-gray-600 text-xs border-t border-gray-800 pt-2 mb-2">列席人員</div>
-    <div id="observers-grid" class="grid gap-2"
-         style="grid-template-columns: repeat(auto-fill, minmax(100px, 1fr))"></div>
+    <div id="observers-grid" class="grid gap-4"
+         style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))"></div>
   </div>
 </div>
 
 <!-- Bottom Status -->
-<div class="px-6 py-2 border-t border-gray-800 flex justify-between text-xs text-gray-600">
-  <span>線上議事系統</span>
+<div class="px-6 py-2 border-t border-gray-800 flex justify-between text-xs text-gray-500">
+  <span>高師大附中學生議會線上議事系統</span>
   <div class="flex gap-4">
     <span>應出席：<span id="stat-total" class="text-gray-400">—</span></span>
     <span>出席：<span id="stat-present" class="text-green-500">—</span></span>
@@ -256,9 +259,9 @@ function updateScreen(data) {
             else if (m.vote === 'abstain') cls = 'status-abstain';
             else if (m.signed_in)          cls = 'status-voting blink';
         }
-        return `<div class="member-card ${cls} rounded-lg p-3 text-center min-h-[70px] flex flex-col justify-center">
-                  <div class="font-semibold text-sm leading-tight">${esc(m.name)}</div>
-                  <div class="text-xs opacity-60 leading-tight mt-1">${esc(m.position||m.member_no||'')}</div>
+        return `<div class="member-card ${cls} rounded-lg p-3 text-center min-h-[90px] flex flex-col justify-center">
+                  <div class="font-semibold text-md leading-tight">${esc(m.name)}</div>
+                  <div class="text-sm opacity-60 leading-tight mt-1">${esc(m.position||m.member_no||'')}</div>
                 </div>`;
     }).join('');
 
@@ -267,7 +270,8 @@ function updateScreen(data) {
     obsSection.classList.toggle('hidden', !observers.length);
     document.getElementById('observers-grid').innerHTML = observers.map(m =>
         `<div class="member-card status-observer rounded-lg p-2 text-center">
-           <div class="text-xs">${esc(m.name)}★</div>
+           <div class="text-xs">${esc(m.name)}</div>
+           <div class="text-xs opacity-60">${esc(m.position||m.member_no||'')}</div>
          </div>`
     ).join('');
 
