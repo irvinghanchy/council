@@ -79,6 +79,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->prepare("UPDATE candidates SET is_elected=? WHERE id=?")->execute([$val, (int)$_POST['candidate_id']]);
         json_ok();
     }
+
+    if ($action === 'batch_agenda') {
+        $lines = explode("\n", $_POST['batch_agenda_data'] ?? '');
+        $ok = 0; $fail = 0;
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (!$line) continue;
+            $parts = array_map('trim', explode(',', $line, 5));
+            $type  = strtolower($parts[0] ?? '');
+            $title = $parts[1] ?? '';
+            $desc  = $parts[2] ?? '';
+            $order = (int)($parts[3] ?? 0);
+            $seats = max(1, (int)($parts[4] ?? 1));
+            if (!in_array($type, ['report','resolution','election','temp']) || !$title) {
+                $fail++; continue;
+            }
+            $pdo->prepare(
+                "INSERT INTO agenda_items (meeting_id,type,title,description,order_no,source)
+                VALUES (?,?,?,?,?,'preset')"
+            )->execute([$mid, $type, $title, $desc, $order]);
+            $new_id = (int)$pdo->lastInsertId();
+            if ($type === 'resolution') {
+                $pdo->prepare("INSERT INTO resolutions (agenda_item_id) VALUES (?)")->execute([$new_id]);
+            }
+            if ($type === 'election') {
+                $pdo->prepare("INSERT INTO elections (agenda_item_id,seats) VALUES (?,?)")->execute([$new_id, $seats]);
+            }
+            $ok++;
+        }
+        $msg = "✅ 批次匯入：成功 {$ok} 筆，失敗 {$fail} 筆。";
+    }
 }
 
 // 取議程列表
@@ -156,7 +187,29 @@ $type_labels = [
       </form>
     </div>
   </div>
+  <!-- 大量新增議程 -->
+  <div class="card bg-base-100 shadow mt-4">
+    <div class="card-body">
+      <h2 class="card-title">📥 大量新增議程</h2>
+      <p class="text-xs text-gray-500 mb-2">
+        <b>每行格式：</b><code>type, 標題, 說明(可空), 排序, 席次(選舉用)</code><br>
+        <b><span class="inline-block w-[4em] text-right">type值</span>：</b>
+        <code>report</code> / <code>resolution</code> / <code>election</code> / <code>temp</code>
+      </p>
+      <form method="POST">
+        <input type="hidden" name="action" value="batch_agenda">
+        <textarea name="batch_agenda_data" class="textarea textarea-bordered w-full text-xs" rows="7"
+                  placeholder="report, 議長報告, 本學期施政方針, 1
+resolution, 修改組織章程案, 修改第三條規定, 2
+election, 選舉議長, , 3, 1
+election, 選舉常務代表, , 4, 3"></textarea>
+        <button class="btn btn-secondary btn-sm w-full mt-2">批次匯入</button>
+      </form>
+    </div>
+  </div>
+
 </div>
+
 
 <!-- 議程列表 -->
 <div class="xl:col-span-2">
