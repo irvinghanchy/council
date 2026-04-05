@@ -464,8 +464,11 @@ async function submitMotion() {
     });
     const d = await res.json();
     if (d.ok) {
-        document.getElementById('motion-form').classList.add('hidden');
+        document.getElementById('motion-content').value = '';
         document.getElementById('motion-sent').classList.remove('hidden');
+        setTimeout(() => {
+            document.getElementById('motion-sent').classList.add('hidden');
+        }, 5000);
     } else alert('送出失敗。');
 }
 
