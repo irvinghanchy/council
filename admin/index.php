@@ -87,7 +87,7 @@ if ($mtg) {
   <div class="stat bg-base-100 shadow rounded-box <?= $stats['pending_motions'] > 0 ? 'bg-warning/20' : '' ?>">
     <div class="stat-title">待審臨時動議</div>
     <div class="stat-value <?= $stats['pending_motions'] > 0 ? 'text-warning' : '' ?>"><?= $stats['pending_motions'] ?></div>
-    <div class="stat-desc"><?= $stats['pending_motions'] > 0 ? '⚠️ 需要審核' : '無待審' ?></div>
+    <div class="stat-desc"><?= $stats['pending_motions'] > 0 ? ' ⚠ 需要審核' : '無待審' ?></div>
   </div>
 </div>
 
@@ -95,7 +95,7 @@ if ($mtg) {
 <?php if ($mtg['status'] === 'active'): ?>
 <div class="alert alert-info mb-6">
   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-  <strong>目前階段：</strong><?= $phase_labels[$phase['phase_type']] ?? $phase['phase_type'] ?>
+  <span><strong>目前階段：</strong><?= $phase_labels[$phase['phase_type']] ?? $phase['phase_type'] ?></span>
 </div>
 <?php endif; ?>
 
