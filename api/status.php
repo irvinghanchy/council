@@ -19,4 +19,19 @@ if (!$meeting_id) {
 }
 if (!$meeting_id) json_err('No active meeting');
 
+$data = build_status($meeting_id);
+
+// 若是議員，回傳其在目前選舉的投票狀態
+if (isset($_SESSION['member_id']) && $data['phase']['phase_type'] === 'election' && !empty($data['election'])) {
+    $chk = db()->prepare(
+        "SELECT COUNT(*) FROM election_votes WHERE election_id=? AND member_id=?"
+    );
+    $chk->execute([$data['election']['id'], (int)$_SESSION['member_id']]);
+    $data['my_election_voted'] = (int)$chk->fetchColumn() > 0;
+} else {
+    $data['my_election_voted'] = false;
+}
+
+json_ok($data);
+
 json_ok(build_status($meeting_id));

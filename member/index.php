@@ -226,7 +226,8 @@ const IS_OBSERVER = <?= $role === 'observer' ? 'true' : 'false' ?>;
 const BASE_URL    = '<?= BASE_URL ?>';
 
 let myVote       = null;
-let myElecVoted  = false;
+let myElecVotedItems = {};   // { agenda_item_id: true }
+let lastElectionItemId = null;
 let mySpeechId   = null;
 let mySpeechStatus = null;
 let selectedCandidates = new Set();
@@ -290,6 +291,15 @@ function updateMemberUI(data) {
         }
     }
     else if (pt === 'election') {
+        // 切換到新選舉時，重置選擇
+        if (currentItemId !== lastElectionItemId) {
+            lastElectionItemId = currentItemId;
+            selectedCandidates = new Set();
+        }
+        // 從伺服器取得是否已投票（解決跨選舉殘留問題）
+        if (data.my_election_voted !== undefined) {
+            myElecVotedItems[currentItemId] = data.my_election_voted;
+        }
         showPanel('election');
         document.getElementById('election-title').textContent = item?.title || '';
         if (election) {
@@ -298,8 +308,8 @@ function updateMemberUI(data) {
                 `每人可投 ${election.seats} 票`;
         }
         if (!IS_OBSERVER) {
-            updateCandidatesUI(candidates, election?.status === 'closed');
-        }
+                updateCandidatesUI(candidates, item?.status === 'closed', !!myElecVotedItems[currentItemId]);
+            }
     }
     else if (pt === 'temp_motion') showPanel('temp');
     else if (pt === 'ended')       showPanel('ended');
@@ -314,12 +324,12 @@ function updateMemberUI(data) {
     }
 }
 
-function updateCandidatesUI(candidates, closed) {
+function updateCandidatesUI(candidates, closed, alreadyVoted) {
     const el = document.getElementById('candidates-list');
     const btn = document.getElementById('submit-election-btn');
     const done = document.getElementById('election-done');
 
-    if (myElecVoted || closed) {
+    if (alreadyVoted || closed) {
         el.classList.add('hidden');
         btn?.classList.add('hidden');
         done.classList.remove('hidden');
@@ -420,7 +430,8 @@ async function submitElectionVote() {
     });
     const d = await res.json();
     if (d.ok) {
-        myElecVoted = true;
+        // myElecVoted = true;
+        myElecVotedItems[currentItemId] = true;
         document.getElementById('election-vote-area')?.classList.add('hidden');
         document.getElementById('election-done').classList.remove('hidden');
     } else alert('投票失敗：' + d.error);
