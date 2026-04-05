@@ -57,12 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 候選人管理
     if ($action === 'add_candidate') {
         $election_id = (int)$_POST['election_id'];
-        $name = trim($_POST['cand_name'] ?? '');
-        $member_id = $_POST['member_id'] ? (int)$_POST['member_id'] : null;
-        if ($name) {
-            $pdo->prepare("INSERT INTO candidates (election_id,name,member_id) VALUES (?,?,?)")
-                ->execute([$election_id, $name, $member_id]);
-            $msg = "✅ 已新增候選人：{$name}";
+        $raw_names   = trim($_POST['cand_name'] ?? '');
+        $member_id   = null; // 快速加入現在只填名字，不帶 member_id
+        if ($raw_names) {
+            $names = array_filter(array_map('trim', explode(',', $raw_names)));
+            foreach ($names as $name) {
+                $pdo->prepare("INSERT INTO candidates (election_id,name,member_id) VALUES (?,?,?)")
+                    ->execute([$election_id, $name, $member_id]);
+            }
+            $msg = "✅ 已新增候選人：" . implode('、', $names);
         }
     }
 
@@ -226,18 +229,24 @@ $type_labels = [
             <?php endforeach; ?>
             </div>
 
-            <form method="POST" class="flex gap-2 flex-wrap">
+            <!-- 大量匯入 -->
+            <form method="POST" class="mb-2">
               <input type="hidden" name="action" value="add_candidate">
               <input type="hidden" name="election_id" value="<?= $eid ?>">
-              <input name="cand_name" type="text" class="input input-bordered input-xs flex-1"
-                     placeholder="候選人姓名（手動輸入）" required>
-              <select name="member_id" class="select select-bordered select-xs">
-                <option value="">— 或從名單快速加入 —</option>
+              <div class="flex gap-2 mb-2">
+                <input id="cand-input-<?= $eid ?>" name="cand_name" type="text"
+                      class="input input-bordered input-xs flex-1"
+                      placeholder="候選人（可逗號分隔多人，例：王小明, 李小華）">
+                <button class="btn btn-xs btn-secondary">新增</button>
+              </div>
+              <!-- 快速從名單加入：點選後填入欄位 -->
+              <select class="select select-bordered select-xs w-full"
+                      onchange="fillCandName(this, <?= $eid ?>)">
+                <option value="">— 從名單快速填入 —</option>
                 <?php foreach ($all_members as $mb): ?>
-                <option value="<?= $mb['id'] ?>"><?= h($mb['name'].'（'.$mb['position'].'）') ?></option>
+                <option value="<?= h($mb['name']) ?>"><?= h($mb['name'].'（'.$mb['position'].'）') ?></option>
                 <?php endforeach; ?>
               </select>
-              <button class="btn btn-xs btn-secondary">新增候選人</button>
             </form>
           </div>
           <?php endif; ?>
@@ -267,6 +276,12 @@ function setElected(candidateId, val) {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: `action=set_elected&candidate_id=${candidateId}&elected=${val}`
     }).then(() => location.reload());
+}
+
+function fillCandName(sel, eid) {
+    if (!sel.value) return;
+    document.getElementById('cand-input-' + eid).value = sel.value;
+    sel.selectedIndex = 0;
 }
 </script>
 
