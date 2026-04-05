@@ -101,6 +101,10 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
           <div id="speaking-badge" class="hidden alert alert-success mt-2">
             🎤 您目前正在發言
           </div>
+          <button id="end-speech-btn" onclick="endSpeech()"
+                  class="btn btn-outline w-full hidden mt-2">
+            ✅ 結束發言
+          </button>
         </div>
       </div>
     </div>
@@ -374,6 +378,8 @@ function updateSpeechUI(queue, inAgenda) {
     const btn    = document.getElementById('speech-btn');
     const cancel = document.getElementById('cancel-speech-btn');
     const badge  = document.getElementById('speaking-badge');
+    const endBtn = document.getElementById('end-speech-btn');
+    endBtn.classList.toggle('hidden', mine?.status !== 'speaking');
 
     if (!mine) {
         btn.classList.remove('hidden');
@@ -451,6 +457,15 @@ async function cancelSpeech() {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: `action=cancel&id=${mySpeechId}&meeting_id=${MEETING_ID}`
+    });
+}
+
+async function endSpeech() {
+    if (!mySpeechId) return;
+    await fetch(`${BASE_URL}/api/speech.php`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `action=update&id=${mySpeechId}&status=done&meeting_id=${MEETING_ID}&member_id=${MEMBER_ID}`
     });
 }
 

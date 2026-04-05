@@ -56,11 +56,23 @@ if ($action === 'cancel') {
 
 // ── 主辦人更新狀態 ────────────────────────────────────────────
 if ($action === 'update') {
-    require_host();
-    $id     = (int)($_POST['id'] ?? 0);
-    $status = $_POST['status'] ?? '';
+    $id                  = (int)($_POST['id'] ?? 0);
+    $status              = $_POST['status'] ?? '';
+    $requester_member_id = (int)($_POST['member_id'] ?? 0);
 
     if (!in_array($status, ['speaking','done','removed'])) json_err('Invalid status');
+
+    // 允許發言者本人將自己標記為 done
+    if ($status === 'done' && $requester_member_id) {
+        $sq = $pdo->prepare("SELECT member_id FROM speech_queue WHERE id=? AND meeting_id=?");
+        $sq->execute([$id, $meeting_id]);
+        $sq = $sq->fetch();
+        if (!$sq || (int)$sq['member_id'] !== $requester_member_id) json_err('無權操作');
+        // 通過，繼續執行
+    } else {
+        require_host();
+    }
+
 
     // 若設為 speaking，把其他人的 speaking 改回 waiting（同時只能一人說話）
     if ($status === 'speaking') {
