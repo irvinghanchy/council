@@ -48,6 +48,21 @@ if ($action === 'review') {
             "INSERT INTO agenda_items (meeting_id,type,title,description,order_no,source)
              VALUES (?,'temp',?,?,?,'motion')"
         )->execute([$meeting_id, '臨時動議：' . mb_substr($motion['content'], 0, 50), $motion['content'], $order]);        $agenda_item_id = (int)$pdo->lastInsertId();
+
+        $pdo->prepare(
+            "INSERT INTO agenda_items (meeting_id,type,title,description,order_no,source)
+             VALUES (?,?,?,?,?,'motion')"
+        )->execute([$meeting_id, $motion_type,
+            '臨時動議：' . mb_substr($motion['content'], 0, 50),
+            $motion['content'], $order]);
+        $agenda_item_id = (int)$pdo->lastInsertId();
+
+        // 若是表決，補建 resolution 記錄
+        if ($motion_type === 'resolution') {
+            $pdo->prepare("INSERT INTO resolutions (agenda_item_id) VALUES (?)")
+                ->execute([$agenda_item_id]);
+        }
+
     }
 
     $pdo->prepare(

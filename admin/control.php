@@ -479,19 +479,20 @@ async function updateMotionsList() {
         `<div class="bg-base-200 rounded p-2 text-sm">
            <div class="font-semibold">${escHtml(m.content)}</div>
            <div class="text-xs text-gray-500 mb-2">提案：${escHtml(m.proposer||'—')}</div>
-           <div class="flex gap-1">
-             <button onclick="reviewMotion(${m.id},'accepted')" class="btn btn-xs btn-success">✅ 受理</button>
-             <button onclick="reviewMotion(${m.id},'rejected')" class="btn btn-xs btn-error btn-outline">❌ 不受理</button>
-           </div>
+          <div class="flex gap-1 flex-wrap">
+            <button onclick="reviewMotion(${m.id},'accepted','temp')" class="btn btn-xs btn-success">✅ 受理（討論）</button>
+            <button onclick="reviewMotion(${m.id},'accepted','resolution')" class="btn btn-xs btn-warning">🪧 受理（表決）</button>
+            <button onclick="reviewMotion(${m.id},'rejected','')" class="btn btn-xs btn-error btn-outline">❌ 不受理</button>
+          </div>
          </div>`
     ).join('');
 }
 
-async function reviewMotion(id, status) {
+async function reviewMotion(id, status, motionType) {
     await fetch(`${BASE_URL}/api/motion.php`, {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: `action=review&id=${id}&status=${status}&meeting_id=${MEETING_ID}`
+        body: `action=review&id=${id}&status=${status}&meeting_id=${MEETING_ID}&motion_type=${encodeURIComponent(motionType)}`
     });
     updateMotionsList();
 }
