@@ -8,9 +8,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url("https://font.emtech.cc/css/ChironHeiHKText");
 
 :root {
-  --font-body: 'Lato', 'Noto Emoji',  'Noto Sans TC', 'Arial', sans-serif;
+  --font-body: 'Lato', 'Noto Emoji',  'ChironHeiHKText', 'Noto Sans TC', 'Arial', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 body, .btn, .input, .select, .textarea, .card, .badge, .alert {
