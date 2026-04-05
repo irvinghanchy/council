@@ -30,13 +30,16 @@ $meeting = active_meeting();
 
   /* 顏色狀態 */
   /* .status-absent  { background:#374151; color:#9CA3AF; } */
-  .status-absent  { background:#1d2229; color:#677282; }
-  .status-present { background:#1F2937; color:#E5E7EB; }
-  .status-yes     { background:#166534; color:#BBF7D0; }
-  .status-no      { background:#991B1B; color:#FECACA; }
-  .status-abstain { background:#854D0E; color:#FEF08A; }
-  .status-voting  { background:#1E3A5F; color:#BAE6FD; }
-  .status-observer{ background:#1C1917; color:#A8A29E; border:1px dashed #57534E; }
+  .status-absent  { background: #1d2229; color: #677282; }
+  .status-present { background: #303d4f; color: #FFF; }
+  .status-yes     { background: #166534; color: #BBF7D0; }
+  .status-no      { background: #991B1B; color: #FECACA; }
+  .status-abstain { background: #854D0E; color: #FEF08A; }
+  .status-voting  { background: #1E3A5F; color: #BAE6FD; }
+  .status-observer-absent  { background: #1C1917; color: #6e6662; border:1px dashed #57534E; }
+  .status-observer-present { background: #45413c; color: #f2e7df; border:1px solid #6b5200; }
+  /* .status-observer{ background:  #1C1917; color: #A8A29E; border:1px dashed #57534E; } */
+  /* .status-observer-present { background:#1e3a5f; color:#bfdbfe; border:1px solid #3b82f6; } */
 </style>
 <!-- To fix the transform animation of .btn in DaisyUI -->
 <!-- <style>
@@ -268,12 +271,13 @@ function updateScreen(data) {
     // Observers
     const obsSection = document.getElementById('observers-section');
     obsSection.classList.toggle('hidden', !observers.length);
-    document.getElementById('observers-grid').innerHTML = observers.map(m =>
-        `<div class="member-card status-observer rounded-lg p-2 text-center">
-           <div class="text-xs">${esc(m.name)}</div>
-           <div class="text-xs opacity-60 line-clamp-1">${esc(m.position||m.member_no||'')}</div>
-         </div>`
-    ).join('');
+    document.getElementById('observers-grid').innerHTML = observers.map(m => {
+        const cls = m.signed_in ? 'status-observer-present' : 'status-observer-absent';
+        return `<div class="member-card ${cls} rounded-lg p-2 text-center">
+                  <div class="text-xs font-medium">${esc(m.name)}</div>
+                  <div class="text-xs opacity-60 line-clamp-1">${esc(m.position||'')}</div>
+                </div>`;
+    }).join('');
 
     // Stats
     const present = attendees.filter(m => m.signed_in).length;
