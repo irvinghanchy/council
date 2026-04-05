@@ -171,11 +171,11 @@ $type_labels = [
         <input type="checkbox">
         <div class="collapse-title font-medium flex items-center gap-2">
           <span class="text-gray-400 text-sm w-6"><?= $it['order_no'] ?>.</span>
-          <div class="badge <?= $type_labels[$it['type']]['badge'] ?? 'badge-ghost' ?> badge-sm">
+          <div class="badge <?= $type_labels[$it['type']]['badge'] ?? 'badge-ghost' ?> badge-sm text-nowrap">
             <?= $type_labels[$it['type']]['label'] ?? $it['type'] ?>
           </div>
           <span><?= h($it['title']) ?></span>
-          <div class="badge badge-<?= $it['status']==='open' ? 'success' : ($it['status']==='closed' ? 'ghost' : 'warning') ?> badge-sm ml-auto">
+          <div class="badge badge-<?= $it['status']==='open' ? 'success' : ($it['status']==='closed' ? 'ghost' : 'warning') ?> badge-sm ml-auto text-nowrap">
             <?= ['pending'=>'待開始','open'=>'進行中','closed'=>'已結束'][$it['status']] ?>
           </div>
         </div>

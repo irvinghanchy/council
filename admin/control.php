@@ -56,7 +56,7 @@ $mid = $meeting['id'];
 
       <!-- 快速切換 -->
       <div class="divider my-2">快速切換</div>
-      <button onclick="setPhase('standby')" class="btn btn-outline btn-sm w-full mb-1">⏳ 待機/簽到</button>
+      <button onclick="setPhase('standby')" class="btn btn-outline btn-sm w-full mb-1">⏳ 待機／簽到</button>
       <button onclick="setPhase('temp_motion')" class="btn btn-outline btn-sm w-full mb-1">📝 臨時動議</button>
       <button onclick="setPhase('ended')" class="btn btn-error btn-outline btn-sm w-full"
               onclick="return confirm('確定結束會議？')">⏹ 結束會議</button>
@@ -305,7 +305,7 @@ function updateUI(data) {
 
     // Phase label
     const phaseNames = {
-        standby:'⏳ 待機/簽到', agenda:'📣 議程',
+        standby:'⏳ 待機／簽到', agenda:'📣 議程',
         resolution:'🪧 表決', election:'🏆 選舉',
         temp_motion:'📝 臨時動議', ended:'✅ 已結束'
     };
@@ -321,7 +321,7 @@ function updateUI(data) {
         const active = ag.id == phase.agenda_item_id;
         const icons = {report:'📣', resolution:'🪧', election:'🏆', temp:'📝'};
         return `<button onclick="switchToItem(${ag.id}, '${ag.type}')"
-                  class="btn btn-xs w-full justify-start ${active ? 'btn-primary' : 'btn-ghost'}">
+                  class="btn btn-xs w-full justify-start text-left line-clamp-1 ${active ? 'btn-primary' : 'btn-ghost'}">
                   ${icons[ag.type]||'•'} ${escHtml(ag.title)}
                 </button>`;
     }).join('') || '<div class="text-gray-400 text-xs text-center">無議程</div>';
@@ -373,7 +373,8 @@ function updateUI(data) {
     (observers.length ? `<div class="col-span-full border-t pt-2 mt-1 text-xs text-gray-400">列席</div>` +
     observers.map(m =>
         `<div class="rounded p-2 text-center text-xs border border-dashed border-gray-300 ${m.signed_in?'':'opacity-40'}">
-           ${escHtml(m.name)}★
+           ${escHtml(m.name)}
+           <div class="text-xs opacity-70 line-clamp-1">${escHtml(m.position||'')}</div>
          </div>`
     ).join('') : '');
 

@@ -76,14 +76,14 @@ if ($action === 'activate' && $meeting) {
         <div class="label"><span class="label-text font-semibold">會議名稱 *</span></div>
         <input name="title" type="text" class="input input-bordered"
                value="<?= h($meeting['title'] ?? '') ?>"
-               placeholder="例：第12屆學生代表大會第1次定期大會" required>
+               placeholder="例：114學年度第2學期期初常會" required>
       </label>
 
       <label class="form-control">
         <div class="label"><span class="label-text font-semibold">會議地點</span></div>
         <input name="location" type="text" class="input input-bordered"
                value="<?= h($meeting['location'] ?? '') ?>"
-               placeholder="例：圖書館三樓多功能會議室">
+               placeholder="例：晨曦5樓第二會議室">
       </label>
 
       <label class="form-control">
@@ -95,7 +95,7 @@ if ($action === 'activate' && $meeting) {
       <label class="form-control">
         <div class="label"><span class="label-text font-semibold">開會事由</span></div>
         <textarea name="reason" class="textarea textarea-bordered" rows="3"
-                  placeholder="簡述本次會議事由..."><?= h($meeting['reason'] ?? '') ?></textarea>
+                  placeholder="簡述本次會議事由……"><?= h($meeting['reason'] ?? '') ?></textarea>
       </label>
 
       <button class="btn btn-primary w-full"><?= $meeting ? '更新' : '建立會議' ?></button>
@@ -119,7 +119,7 @@ if ($action === 'activate' && $meeting) {
       <?php if ($meeting['status'] === 'preparing'): ?>
       <form method="POST">
         <input type="hidden" name="action" value="activate">
-        <button class="btn btn-success w-full">▶ 開始會議（進入待機/簽到）</button>
+        <button class="btn btn-success w-full">▶ 開始會議（進入待機／簽到）</button>
       </form>
       <?php elseif ($meeting['status'] === 'active'): ?>
       <a href="<?= BASE_URL ?>/admin/control.php" class="btn btn-primary w-full mb-2">🛑 前往現場控制台</a>
@@ -144,7 +144,7 @@ if ($action === 'activate' && $meeting) {
                   class="btn btn-xs btn-outline">複製</button>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-sm font-semibold w-20">議員登入</span>
+          <span class="text-sm font-semibold w-20">成員登入</span>
           <code class="text-xs bg-base-200 px-2 py-1 rounded flex-1 overflow-auto">
             <?= BASE_URL ?>/index.php
           </code>

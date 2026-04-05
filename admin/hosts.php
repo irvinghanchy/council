@@ -98,9 +98,9 @@ $hosts = $pdo->query("SELECT * FROM hosts ORDER BY is_admin DESC, id")->fetchAll
           <input name="name" type="text" class="input input-bordered input-sm" placeholder="秘書長" required>
         </label>
         <label class="form-control">
-          <div class="label"><span class="label-text">Google 信箱（學號@stu...）</span></div>
+          <div class="label"><span class="label-text">Google 信箱（學號@stu…）</span></div>
           <input name="email" type="email" class="input input-bordered input-sm"
-                 placeholder="C112000001@stu.nknush.kh.edu.tw" required>
+                 placeholder="211001@stu.nknush.kh.edu.tw" required>
         </label>
         <button class="btn btn-primary btn-sm w-full">新增</button>
       </form>
@@ -110,7 +110,7 @@ $hosts = $pdo->query("SELECT * FROM hosts ORDER BY is_admin DESC, id")->fetchAll
   <!-- 更改 Admin 密碼 -->
   <div class="card bg-base-100 shadow border-2 border-warning">
     <div class="card-body">
-      <h2 class="card-title text-lg text-warning">🔐 更改管理員密碼</h2>
+      <h2 class="card-title text-lg text-warning">🔐 更改Admin管理員密碼</h2>
       <form method="POST" class="space-y-3">
         <input type="hidden" name="action" value="change_password">
         <label class="form-control">

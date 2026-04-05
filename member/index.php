@@ -115,17 +115,17 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
         <?php if ($role === 'member'): ?>
         <div id="vote-buttons" class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
           <button onclick="submitVote('yes')"
-                  class="btn btn-success btn-lg h-24 flex-col gap-1">
+                  class="btn btn-success btn-lg h-24 flex-col gap-1 text-success-content">
             <span class="text-3xl">✅</span>
             <span class="font-bold">同意</span>
           </button>
           <button onclick="submitVote('no')"
-                  class="btn btn-error btn-lg h-24 flex-col gap-1">
+                  class="btn btn-error btn-lg h-24 flex-col gap-1 text-error-content">
             <span class="text-3xl">❌</span>
             <span class="font-bold">反對</span>
           </button>
           <button onclick="submitVote('abstain')"
-                  class="btn btn-warning btn-lg h-24 flex-col gap-1">
+                  class="btn btn-warning btn-lg h-24 flex-col gap-1 text-warning-content">
             <span class="text-3xl">⚪</span>
             <span class="font-bold">棄權</span>
           </button>

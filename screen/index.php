@@ -71,7 +71,7 @@ $meeting = active_meeting();
 <!-- Phase Banner -->
 <div id="phase-banner" class="px-6 py-4 border-b border-gray-800">
   <div class="flex items-center gap-4">
-    <div id="phase-badge" class="badge badge-lg text-lg font-semibold px-4 py-4"></div>
+    <div id="phase-badge" class="badge badge-lg text-lg font-semibold px-4 py-4 text-nowrap"></div>
     <div>
       <div id="phase-item-title" class="text-2xl font-bold"></div>
       <div id="phase-item-desc" class="text-gray-400 text-sm mt-1"></div>
@@ -170,7 +170,7 @@ function updateScreen(data) {
     // Top bar
     document.getElementById('screen-meeting-title').textContent = meeting?.title || '';
     document.getElementById('screen-location').textContent = '📍 ' + (meeting?.location || '—');
-    document.getElementById('screen-time').textContent     = '🕐 ' + (meeting?.start_time || '—');
+    document.getElementById('screen-time').textContent     = '🕐 ' + (meeting?.start_time || '—') + ' 始';
 
     // Timer
     const tBar = document.getElementById('timer-bar');
@@ -194,7 +194,7 @@ function updateScreen(data) {
 
     // Phase badge
     const phaseInfo = {
-        standby:     {label:'⏳ 待機/簽到',   cls:'badge-ghost'},
+        standby:     {label:'⏳ 待機／簽到',   cls:'badge-ghost'},
         agenda:      {label:'📣 議程',         cls:'badge-info'},
         resolution:  {label:'🪧 表決',         cls:'badge-warning'},
         election:    {label:'🏆 選舉',         cls:'badge-secondary'},
@@ -204,7 +204,7 @@ function updateScreen(data) {
     const pi = phaseInfo[phase.phase_type] || {label:phase.phase_type, cls:'badge-ghost'};
     const badge = document.getElementById('phase-badge');
     badge.textContent = pi.label;
-    badge.className   = `badge badge-lg text-lg px-4 py-4 ${pi.cls}`;
+    badge.className   = `badge badge-lg text-lg px-4 py-4 text-nowrap ${pi.cls}`;
 
     document.getElementById('phase-item-title').textContent = item?.title || '';
     document.getElementById('phase-item-desc').textContent  = item?.description || '';
@@ -271,7 +271,7 @@ function updateScreen(data) {
     document.getElementById('observers-grid').innerHTML = observers.map(m =>
         `<div class="member-card status-observer rounded-lg p-2 text-center">
            <div class="text-xs">${esc(m.name)}</div>
-           <div class="text-xs opacity-60">${esc(m.position||m.member_no||'')}</div>
+           <div class="text-xs opacity-60 line-clamp-1">${esc(m.position||m.member_no||'')}</div>
          </div>`
     ).join('');
 

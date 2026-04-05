@@ -105,7 +105,7 @@ if ($mtg) {
     <div class="card-body items-center text-center">
       <div class="text-4xl">👥</div>
       <h3 class="card-title">成員管理</h3>
-      <p class="text-gray-500 text-sm">新增/編輯出席人與列席人名單</p>
+      <p class="text-gray-500 text-sm">新增／編輯出席人與列席人名單</p>
     </div>
   </a>
   <a href="<?= BASE_URL ?>/admin/agenda.php" class="card bg-base-100 shadow hover:shadow-lg transition-shadow">

@@ -113,16 +113,16 @@ $observers = $observers->fetchAll();
         <label class="form-control">
           <div class="label"><span class="label-text">學號 / 信箱 *</span></div>
           <input name="email" type="text" class="input input-bordered input-sm"
-                 placeholder="C112000001 或完整信箱" required>
+                 placeholder="211001 或完整信箱" required>
           <div class="label"><span class="label-text-alt text-gray-400">輸入學號自動補 @stu.nknush...</span></div>
         </label>
         <label class="form-control">
           <div class="label"><span class="label-text">姓名 *</span></div>
-          <input name="name" type="text" class="input input-bordered input-sm" placeholder="王小明" required>
+          <input name="name" type="text" class="input input-bordered input-sm" placeholder="歐志昌" required>
         </label>
         <label class="form-control">
           <div class="label"><span class="label-text">職位</span></div>
-          <input name="position" type="text" class="input input-bordered input-sm" placeholder="第一選區第一席">
+          <input name="position" type="text" class="input input-bordered input-sm" placeholder="議長">
         </label>
         <label class="form-control">
           <div class="label"><span class="label-text">議員編號</span></div>
@@ -151,7 +151,7 @@ $observers = $observers->fetchAll();
       <form method="POST">
         <input type="hidden" name="action" value="batch">
         <textarea name="batch_data" class="textarea textarea-bordered w-full text-xs" rows="8"
-                  placeholder="C112000001, 王小明, 第一選區第一席&#10;C112000002, 李小華, 第二選區第一席&#10;C112000003, 張老師, 指導老師, observer"></textarea>
+                  placeholder="211001, 歐志昌, 議長&#10;211005, 何大帥, 冗員&#10;111119, 王予澄, 會長, observer"></textarea>
         <button class="btn btn-secondary btn-sm w-full mt-2">匯入</button>
       </form>
     </div>
