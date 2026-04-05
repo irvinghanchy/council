@@ -13,7 +13,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
            ? db()->query("SELECT * FROM meeting WHERE id=$mid")->fetch() : null;
 ?>
 <!DOCTYPE html>
-<html lang="zh-TW" data-theme="light">
+<html lang="zh-TW" data-theme="wireframe">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
@@ -32,7 +32,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
 <body class="bg-base-200 min-h-screen">
 
 <!-- Top Bar -->
-<div class="navbar bg-blue-950 text-white px-4 sticky top-0 z-50">
+<div class="navbar style="height:56px;background:#fff;border-bottom:1px solid #E4E7EB;display:flex;align-items:center;padding:0 20px;position:sticky;top:0;z-index:50;gap:12px;"">
   <div class="flex-1 items-center">
     <span class="font-bold text-lg flex items-center">
       <div class="avatar h-8 my-auto mx-2">
@@ -50,7 +50,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
     </span>
   </div>
   <div>
-    <div class="badge badge-success badge-lg">✅ 已簽到</div>
+    <div class="badge badge-success badge-lg">✔ 已簽到</div>
     <a href="<?= BASE_URL ?>/auth/logout.php" class="btn btn-ghost btn-sm ml-2">登出</a>
   </div>
 </div>
@@ -77,7 +77,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
         <div class="text-5xl mb-3">⏳</div>
         <h2 class="text-xl font-bold text-gray-600">會議待機中</h2>
         <p class="text-gray-400">請等候主辦人開始程序</p>
-        <div class="badge badge-success badge-lg mt-4">✅ 簽到成功</div>
+        <div class="badge badge-success badge-lg mt-4">✔ 簽到成功</div>
       </div>
     </div>
 
@@ -103,7 +103,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
           </div>
           <button id="end-speech-btn" onclick="endSpeech()"
                   class="btn btn-outline w-full hidden mt-2">
-            ✅ 結束發言
+            ✔ 結束發言
           </button>
         </div>
       </div>
@@ -120,7 +120,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
         <div id="vote-buttons" class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
           <button onclick="submitVote('yes')"
                   class="btn btn-success btn-lg h-24 flex-col gap-1 text-success-content">
-            <span class="text-3xl">✅</span>
+            <span class="text-3xl">✔</span>
             <span class="font-bold">同意</span>
           </button>
           <button onclick="submitVote('no')"
@@ -174,7 +174,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
                   class="btn btn-primary w-full btn-lg">確認投票</button>
         </div>
         <div id="election-done" class="hidden alert alert-success text-center py-6">
-          ✅ 您已完成投票
+          ✔ 您已完成投票
         </div>
         <?php else: ?>
         <div class="alert alert-info">列席人無投票權</div>
@@ -197,7 +197,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
           <button onclick="submitMotion()" class="btn btn-primary w-full">📤 送出（待主辦人審核）</button>
         </div>
         <div id="motion-sent" class="hidden alert alert-success">
-          ✅ 動議已送出，等待主辦人審核。
+          ✔ 動議已送出，等待主辦人審核。
         </div>
       </div>
     </div>
@@ -280,7 +280,7 @@ function updateMemberUI(data) {
         document.getElementById('vote-buttons')?.classList.toggle('hidden', voted || closed || IS_OBSERVER);
         document.getElementById('vote-done')?.classList.toggle('hidden', !voted && !closed);
         if (voted || closed) {
-            const labels = {yes:'✅ 已投：同意', no:'❌ 已投：反對', abstain:'⚪ 已投：棄權'};
+            const labels = {yes:'✔ 已投：同意', no:'❌ 已投：反對', abstain:'⚪ 已投：棄權'};
             document.getElementById('vote-done-text').textContent =
                 myVote ? (labels[myVote] || '') : (closed ? '⚪ 表決已截止（自動棄權）' : '');
         }
@@ -418,7 +418,7 @@ async function submitVote(vote) {
         myVote = vote;
         document.getElementById('vote-buttons')?.classList.add('hidden');
         document.getElementById('vote-done')?.classList.remove('hidden');
-        const labels = {yes:'✅ 已投：同意', no:'❌ 已投：反對', abstain:'⚪ 已投：棄權'};
+        const labels = {yes:'✔ 已投：同意', no:'❌ 已投：反對', abstain:'⚪ 已投：棄權'};
         document.getElementById('vote-done-text').textContent = labels[vote];
     } else {
         alert('投票失敗：' + d.error);

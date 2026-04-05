@@ -1,0 +1,8 @@
+議程類型,標題,說明（選填）,排序,席次（選舉用）
+report ,報吿案,例如活動報吿案,,
+report ,,,,
+resolution ,表決案,例如人事任命案,,
+resolution ,,,,
+election ,選舉議長,,,1
+election ,選舉學生代表,,,8
+temp,臨時動議,不用放,,

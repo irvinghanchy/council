@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($meeting && $action === 'update') {
                 $pdo->prepare("UPDATE meeting SET title=?,location=?,start_time=?,reason=? WHERE id=?")
                     ->execute([$title, $loc, $time, $reason, $meeting['id']]);
-                $msg = '✅ 會議資料已更新。';
+                $msg = '✔ 會議資料已更新。';
             } else {
                 // 只能有一場 preparing/active 會議
                 $pdo->prepare("UPDATE meeting SET status='ended' WHERE status IN ('preparing','active')")->execute();
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdo->prepare("INSERT INTO phase_control (meeting_id,phase_type,version) VALUES (?,'standby',1)")
                     ->execute([$new_id]);
                 log_event($new_id, 'meeting_created', ['title' => $title]);
-                $msg = '✅ 會議建立成功！';
+                $msg = '✔ 會議建立成功！';
             }
             $meeting = active_meeting();
         }
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->prepare("UPDATE meeting SET status='ended' WHERE id=?")->execute([$meeting['id']]);
         set_phase($meeting['id'], 'ended');
         log_event($meeting['id'], 'meeting_ended', []);
-        $msg = '✅ 會議已結束。';
+        $msg = '✔ 會議已結束。';
         $meeting = null;
     }
 
@@ -51,7 +51,7 @@ if ($action === 'activate' && $meeting) {
         )->execute([$meeting['id']]);
         set_phase($meeting['id'], 'standby');
         log_event($meeting['id'], 'meeting_started', []);
-        $msg = '✅ 會議已開始！';
+        $msg = '✔ 會議已開始！';
         $meeting = active_meeting();
     }
 }
@@ -60,7 +60,7 @@ if ($action === 'activate' && $meeting) {
 <h1 class="text-3xl font-bold mb-6">🔧 會議設定</h1>
 
 <?php if ($msg): ?>
-<div class="alert <?= str_starts_with($msg,'✅') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
+<div class="alert <?= str_starts_with($msg,'✔') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
 <?php endif; ?>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

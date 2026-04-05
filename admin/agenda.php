@@ -36,13 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdo->prepare("INSERT INTO elections (agenda_item_id,seats) VALUES (?,?)")
                     ->execute([$new_id, $seats]);
             }
-            $msg = "✅ 已新增議程：{$title}";
+            $msg = "✔ 已新增議程：{$title}";
         }
     }
 
     if ($action === 'delete_item') {
         $pdo->prepare("DELETE FROM agenda_items WHERE id=? AND meeting_id=?")->execute([$_POST['id'], $mid]);
-        $msg = '✅ 已刪除。';
+        $msg = '✔ 已刪除。';
     }
 
     if ($action === 'reorder') {
@@ -65,13 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdo->prepare("INSERT INTO candidates (election_id,name,member_id) VALUES (?,?,?)")
                     ->execute([$election_id, $name, $member_id]);
             }
-            $msg = "✅ 已新增候選人：" . implode('、', $names);
+            $msg = "✔ 已新增候選人：" . implode('、', $names);
         }
     }
 
     if ($action === 'delete_candidate') {
         $pdo->prepare("DELETE FROM candidates WHERE id=?")->execute([$_POST['candidate_id']]);
-        $msg = '✅ 已刪除候選人。';
+        $msg = '✔ 已刪除候選人。';
     }
 
     if ($action === 'set_elected') {
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $ok++;
         }
-        $msg = "✅ 批次匯入：成功 {$ok} 筆，失敗 {$fail} 筆。";
+        $msg = "✔ 批次匯入：成功 {$ok} 筆，失敗 {$fail} 筆。";
     }
 }
 
@@ -139,7 +139,7 @@ $type_labels = [
 <h1 class="text-3xl font-bold mb-6">📋 議程管理</h1>
 
 <?php if ($msg): ?>
-<div class="alert <?= str_starts_with($msg,'✅') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
+<div class="alert <?= str_starts_with($msg,'✔') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
 <?php endif; ?>
 
 <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -270,7 +270,7 @@ election, 選舉常務代表, , 4, 3"></textarea>
               <span class="badge badge-sm"><?= $c['vote_count'] ?> 票</span>
               <button onclick="setElected(<?= $c['id'] ?>, <?= $c['is_elected'] ? 0 : 1 ?>)"
                       class="btn btn-xs <?= $c['is_elected'] ? 'btn-success' : 'btn-outline' ?>">
-                <?= $c['is_elected'] ? '✅ 當選' : '標記當選' ?>
+                <?= $c['is_elected'] ? '✔ 當選' : '標記當選' ?>
               </button>
               <?php endif; ?>
               <form method="POST" class="ml-auto">

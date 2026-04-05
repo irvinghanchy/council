@@ -1,78 +1,281 @@
-/* ═══════════════════════════════════════════════════
-    自訂樣式 — 覆蓋 DaisyUI / Tailwind
-   ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   議事系統 Design System — custom.css
+   Brand: #0055FF  |  Grid: 8pt  |  Theme: Bento / Wireframe
+   ═══════════════════════════════════════════════════════════ */
 
-/* Webfont */
+/* ── Webfonts ─────────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Emoji:wght@300..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import url("https://font.emtech.cc/css/ChironHeiHKText");
 
-/* 版面樣式 */
+/* ── Design Tokens ────────────────────────────────────────── */
 :root {
-  --font-body: 'Lato', 'Noto Emoji',  'ChironHeiHKText', 'Noto Sans TC', 'Arial', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  /* SP品牌色 */
-  --brand-color: #0055FF;
-  --brand-hover: #0044CC;
+  --brand:        #0055FF;
+  --brand-dark:   #0040CC;
+  --brand-light:  #EEF3FF;
+  --brand-mid:    #DBEAFE;
+  --surface-0:    #F4F5F7;
+  --surface-1:    #FFFFFF;
+  --surface-2:    #F8F9FB;
+  --surface-3:    #ECEEF2;
+  --border:       #E4E7EB;
+  --border-hover: #C9CDD4;
+  --text-1:       #111827;
+  --text-2:       #4B5563;
+  --text-3:       #9CA3AF;
+  --success:      #16A34A;
+  --success-bg:   #F0FDF4;
+  --error:        #DC2626;
+  --error-bg:     #FEF2F2;
+  --warning:      #D97706;
+  --warning-bg:   #FFFBEB;
+  --info:         #0284C7;
+  --info-bg:      #F0F9FF;
+  --r-sm:   6px;
+  --r-md:   10px;
+  --r-lg:   16px;
+  --r-xl:   20px;
+  --r-full: 9999px;
+  --font-body: 'Lato', 'Noto Emoji', 'ChironHeiHKText', 'Noto Sans TC', sans-serif;
+  --font-ui:   'Chiron GoRound TC', 'Noto Emoji', 'Noto Sans TC', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Noto Emoji', monospace;
 }
-body {
-  background-color: #F9FAFB; /* 極淺灰階底色 */
-  color: #111827;
-}
-body, .btn, .input, .select, .textarea, .card, .badge, .alert {
-  font-family: var(--font-body) ;
-}
+
 [data-theme="wireframe"] {
-  --p: 220 100% 50%; /* Use #0055FF in HSL */
+  --p:  220 100% 50%;
   --pf: 220 100% 40%;
   --pc: 0 0% 100%;
+  --b1: 0 0% 100%;
+  --b2: 220 14% 96%;
+  --b3: 220 13% 91%;
+  --bc: 220 39% 11%;
+  --rounded-btn: 0.5rem;
+  --rounded-box: 1rem;
 }
 
-/* --- Bento Box Hover 縮放效果 --- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--surface-0);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body, .btn, .input, .select, .textarea, .badge, .alert, .label-text {
+  font-family: var(--font-body);
+}
+.btn, .badge, .link { font-family: var(--font-ui); }
+code, .font-mono, pre { font-family: var(--font-mono) !important; font-size: 0.875em; }
+.font-emoji { font-family: 'Noto Emoji', sans-serif; }
+
+/* ── Bento Card ───────────────────────────────────────────── */
 .bento-card {
-  background-color: #FFFFFF;
-  border: 1px solid #E5E7EB; /* 1px 微弱邊框 */
-  border-radius: 1rem; /* 16px 圓角，符合 8pt 網格 */
-  box-shadow: none !important; /* 強制移除厚重陰影 */
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: none !important;
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1), border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
 }
 .bento-card:hover {
-  transform: scale(1.015) translateY(-2px);
-  border-color: #D1D5DB;
+  transform: translateY(-2px) scale(1.008);
+  border-color: var(--border-hover);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06) !important;
 }
 
-/* 停用按鈕跳動 & 縮放效果 */
-.btn {
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg) !important;
   box-shadow: none !important;
-  border-radius: 0.5rem; /* 8px 圓角 */
+}
+.card-body { padding: 24px; }
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.btn {
+  border-radius: var(--r-md) !important;
+  box-shadow: none !important;
   transform: none !important;
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease !important;
 }
-.btn:active { transform: scale(0.97) !important; }
+.btn:hover { transform: translateY(-1px) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important; }
+.btn:active { transform: scale(0.96) translateY(0) !important; box-shadow: none !important; }
 
-/* SP 自訂樣式 */
-.font-emoji{
-  font-family: 'Noto Emoji', sans-serif;
+.btn-primary { background-color: var(--brand) !important; border-color: var(--brand) !important; color: #fff !important; }
+.btn-primary:hover { background-color: var(--brand-dark) !important; border-color: var(--brand-dark) !important; }
+
+.btn-outline { border: 1px solid var(--border-hover) !important; color: var(--text-2) !important; background: transparent !important; }
+.btn-outline:hover { background-color: var(--surface-3) !important; border-color: var(--border-hover) !important; color: var(--text-1) !important; }
+
+.btn-ghost:hover { background-color: var(--surface-3) !important; }
+.btn-success { background-color: var(--success) !important; border-color: var(--success) !important; color: #fff !important; }
+.btn-error   { background-color: var(--error)   !important; border-color: var(--error)   !important; color: #fff !important; }
+.btn-warning { background-color: var(--warning) !important; border-color: var(--warning) !important; color: #fff !important; }
+
+/* ── Inputs ───────────────────────────────────────────────── */
+.input, .select, .textarea {
+  border-radius: var(--r-md) !important;
+  border: 1px solid var(--border) !important;
+  background: var(--surface-1) !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.font-mono, code {
-  font-family: 'JetBrains Mono', monospace !important;
-}
-.btn, .link , .badge {
-  font-family: "Chiron GoRound TC", var(--font-body);
+.input:focus, .select:focus, .textarea:focus {
+  border-color: var(--brand) !important;
+  box-shadow: 0 0 0 3px rgba(0,85,255,0.1) !important;
+  outline: none !important;
 }
 
-/* --- 物理阻尼感 (Damping) 進場動畫 --- */
-@keyframes spring-fade-in {
-  0% { opacity: 0; transform: translateY(5px) scale(0.98); }
+/* ── Badge ────────────────────────────────────────────────── */
+.badge { border-radius: var(--r-full) !important; font-family: var(--font-ui); font-weight: 500; font-size: 0.75rem; border: 1px solid transparent; }
+.badge-primary   { background: var(--brand)      !important; color: #fff             !important; }
+.badge-success   { background: var(--success-bg) !important; color: var(--success)   !important; border-color: #BBF7D0 !important; }
+.badge-warning   { background: var(--warning-bg) !important; color: var(--warning)   !important; border-color: #FDE68A !important; }
+.badge-error     { background: var(--error-bg)   !important; color: var(--error)     !important; border-color: #FECACA !important; }
+.badge-info      { background: var(--info-bg)    !important; color: var(--info)      !important; border-color: #BAE6FD !important; }
+.badge-ghost     { background: var(--surface-3)  !important; color: var(--text-2)    !important; border-color: var(--border) !important; }
+.badge-secondary { background: var(--surface-3)  !important; color: var(--text-2)    !important; border-color: var(--border) !important; }
+
+/* ── Stat ─────────────────────────────────────────────────── */
+.stat { background: var(--surface-1); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: none; padding: 16px 24px; }
+.stat-title { color: var(--text-3); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.stat-value { color: var(--text-1); font-size: 2rem; font-weight: 700; line-height: 1.2; margin: 4px 0; }
+.stat-desc  { color: var(--text-3); font-size: 0.75rem; }
+
+/* ── Alert ────────────────────────────────────────────────── */
+.alert { border-radius: var(--r-md) !important; border: 1px solid transparent; box-shadow: none !important; }
+.alert-info    { background: var(--info-bg)    !important; color: var(--info)    !important; border-color: #BAE6FD !important; }
+.alert-success { background: var(--success-bg) !important; color: var(--success) !important; border-color: #BBF7D0 !important; }
+.alert-warning { background: var(--warning-bg) !important; color: var(--warning) !important; border-color: #FDE68A !important; }
+.alert-error   { background: var(--error-bg)   !important; color: var(--error)   !important; border-color: #FECACA !important; }
+
+/* ── Table ────────────────────────────────────────────────── */
+.table { border-radius: var(--r-lg); overflow: hidden; }
+.table th { background: var(--surface-2); color: var(--text-3); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; border-bottom: 1px solid var(--border); padding: 10px 16px; }
+.table td { border-bottom: 1px solid var(--surface-0); padding: 10px 16px; }
+.table-zebra tbody tr:nth-child(even) td { background: var(--surface-2); }
+.table tbody tr:hover td { background: var(--brand-light); transition: background 0.1s; }
+
+/* ── Collapse ─────────────────────────────────────────────── */
+.collapse { border: 1px solid var(--border) !important; border-radius: var(--r-md) !important; background: var(--surface-1) !important; }
+
+/* ── Dropdown ─────────────────────────────────────────────── */
+.dropdown-content { border: 1px solid var(--border) !important; border-radius: var(--r-md) !important; box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important; background: var(--surface-1) !important; }
+
+/* ── Divider ──────────────────────────────────────────────── */
+.divider { color: var(--text-3); font-size: 0.75rem; }
+.divider::before, .divider::after { background-color: var(--border); }
+
+/* ══════════════════════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════════════════════ */
+
+@keyframes spring-in {
+  0%   { opacity: 0; transform: translateY(24px) scale(0.95); }
+  55%  { opacity: 1; transform: translateY(-5px) scale(1.015); }
+  75%  { transform: translateY(2px) scale(0.998); }
+  90%  { transform: translateY(-1px) scale(1.002); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
-.animate-spring {
-  /* 使用 calmer cubic-bezier 創造輕微阻尼感 */
-  animation: spring-fade-in 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+
+@keyframes float-up {
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
+
+@keyframes pop-in {
+  0%   { opacity: 0; transform: scale(0.85); }
+  65%  { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+.animate-spring     { animation: spring-in 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.animate-float      { animation: float-up 0.5s cubic-bezier(0.23, 1, 0.32, 1) both; }
+.animate-pop        { animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.blink              { animation: pulse-glow 1.4s ease-in-out infinite; }
+
+.delay-0 { animation-delay: 0ms; }
+.delay-1 { animation-delay: 80ms; }
+.delay-2 { animation-delay: 160ms; }
+.delay-3 { animation-delay: 240ms; }
+.delay-4 { animation-delay: 320ms; }
+.delay-5 { animation-delay: 400ms; }
+.delay-6 { animation-delay: 480ms; }
+
+/* ══════════════════════════════════════════════════════════
+   BENTO UTILITIES
+   ══════════════════════════════════════════════════════════ */
+
+.bento-grid { display: grid; gap: 16px; }
+.bento-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 8px;
+  font-family: var(--font-ui);
+}
+.inset-panel { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px; }
+.accent-top { border-top: 3px solid var(--brand); }
+.num-display { font-family: var(--font-mono); font-size: 2.5rem; font-weight: 700; line-height: 1; }
+
+/* ══════════════════════════════════════════════════════════
+   SCREEN PAGE
+   ══════════════════════════════════════════════════════════ */
+
+body.screen-body { background: #080808; color: #F0F0F0; }
+.status-absent           { background: #1C1C1C; color: #4B5563; border: 1px solid #2A2A2A; }
+.status-present          { background: #1A1A2E; color: #E0E7FF; border: 1px solid #2D3561; }
+.status-yes              { background: #14532D; color: #BBF7D0; border: 1px solid #16A34A; }
+.status-no               { background: #7F1D1D; color: #FECACA; border: 1px solid #DC2626; }
+.status-abstain          { background: #78350F; color: #FEF08A; border: 1px solid #D97706; }
+.status-voting           { background: #1E3A5F; color: #BAE6FD; border: 1px solid #0284C7; }
+.status-observer-present { background: #1C2333; color: #93C5FD; border: 1px dashed #3B4E6B; }
+.status-observer-absent  { background: #111111; color: #374151; border: 1px dashed #1F2937; }
+
+/* ══════════════════════════════════════════════════════════
+   MEMBER VOTE BUTTONS
+   ══════════════════════════════════════════════════════════ */
+
+.vote-btn {
+  height: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--r-lg) !important;
+  font-weight: 700;
+  border: 2px solid transparent;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  box-shadow: none !important;
+}
+.vote-btn:active { transform: scale(0.92) !important; }
+.vote-btn-yes     { background: var(--success-bg); color: var(--success); border-color: #86EFAC; }
+.vote-btn-yes:hover { background: #DCFCE7; border-color: var(--success); transform: translateY(-2px) !important; }
+.vote-btn-no      { background: var(--error-bg);   color: var(--error);   border-color: #FCA5A5; }
+.vote-btn-no:hover  { background: #FEE2E2; border-color: var(--error); transform: translateY(-2px) !important; }
+.vote-btn-abstain { background: var(--warning-bg); color: var(--warning); border-color: #FCD34D; }
+.vote-btn-abstain:hover { background: #FEF9C3; border-color: var(--warning); transform: translateY(-2px) !important; }
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface-0); }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-3); }

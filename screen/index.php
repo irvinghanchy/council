@@ -15,7 +15,7 @@ if (!isset($_GET['pin']) || $_GET['pin'] !== SCREEN_PIN) {
 $meeting = active_meeting();
 ?>
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" data-theme="wireframe">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -48,7 +48,7 @@ $meeting = active_meeting();
 </style> -->
 <link rel="stylesheet" href="<?= BASE_URL ?>/assets/custom.css">
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="screen-body min-h-screen flex flex-col">
 
 <!-- Top Bar -->
 <div id="top-bar" class="flex items-center justify-between px-6 py-3 border-b border-gray-800">
@@ -202,7 +202,7 @@ function updateScreen(data) {
         resolution:  {label:'🪧 表決',         cls:'badge-warning'},
         election:    {label:'🏆 選舉',         cls:'badge-secondary'},
         temp_motion: {label:'📝 臨時動議',      cls:'badge-ghost'},
-        ended:       {label:'✅ 會議結束',      cls:'badge-success'},
+        ended:       {label:'✔ 會議結束',      cls:'badge-success'},
     };
     const pi = phaseInfo[phase.phase_type] || {label:phase.phase_type, cls:'badge-ghost'};
     const badge = document.getElementById('phase-badge');
@@ -239,7 +239,7 @@ function updateScreen(data) {
                 `<div class="flex items-center gap-2 bg-gray-800 rounded px-3 py-1">
                    <span class="${c.is_elected ? 'text-yellow-300 font-bold' : 'text-white'}">${esc(c.name)}</span>
                    <span class="badge badge-sm">${c.vote_count || 0} 票</span>
-                   ${c.is_elected ? '<span class="text-yellow-400 text-xs">✅ 當選</span>' : ''}
+                   ${c.is_elected ? '<span class="text-yellow-400 text-xs">✔ 當選</span>' : ''}
                  </div>`
             ).join('');
     }

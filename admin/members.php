@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     "INSERT INTO members (meeting_id,email,name,position,member_no,type)
                      VALUES (?,?,?,?,?,?)"
                 )->execute([$mid, $email, $name, $position, $no, $type]);
-                $msg = "✅ 已新增：{$name}";
+                $msg = "✔ 已新增：{$name}";
             } catch (PDOException $e) {
                 $msg = '❌ 該信箱已在名單中。';
             }
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action === 'delete') {
         $pdo->prepare("DELETE FROM members WHERE id=? AND meeting_id=?")->execute([$_POST['id'], $mid]);
-        $msg = '✅ 已刪除。';
+        $msg = '✔ 已刪除。';
     }
 
     if ($action === 'batch') {
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $ok++;
             } catch (Exception $e) { $fail++; }
         }
-        $msg = "✅ 批次匯入完成：成功 {$ok} 筆，失敗 {$fail} 筆。";
+        $msg = "✔ 批次匯入完成：成功 {$ok} 筆，失敗 {$fail} 筆。";
     }
 }
 
@@ -98,7 +98,7 @@ $observers = $observers->fetchAll();
 </p>
 
 <?php if ($msg): ?>
-<div class="alert <?= str_starts_with($msg,'✅') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
+<div class="alert <?= str_starts_with($msg,'✔') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
 <?php endif; ?>
 
 <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">

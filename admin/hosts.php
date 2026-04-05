@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         else {
             try {
                 $pdo->prepare("INSERT INTO hosts (name,email) VALUES (?,?)")->execute([$name, $email]);
-                $msg = "✅ 已新增主辦人帳號：{$name}（{$email}）";
+                $msg = "✔ 已新增主辦人帳號：{$name}（{$email}）";
             } catch (PDOException $e) {
                 $msg = '❌ 該信箱已存在。';
             }
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete') {
         $id = (int)$_POST['id'];
         $pdo->prepare("DELETE FROM hosts WHERE id=? AND is_admin=0")->execute([$id]);
-        $msg = '✅ 已刪除主辦人帳號。';
+        $msg = '✔ 已刪除主辦人帳號。';
     }
 
     if ($action === 'change_password') {
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         else {
             $hash = password_hash($new_pw, PASSWORD_DEFAULT);
             $pdo->prepare("UPDATE hosts SET password_hash=? WHERE is_admin=1")->execute([$hash]);
-            $msg = '✅ 管理員密碼已更新。';
+            $msg = '✔ 管理員密碼已更新。';
         }
     }
 }
@@ -50,7 +50,7 @@ $hosts = $pdo->query("SELECT * FROM hosts ORDER BY is_admin DESC, id")->fetchAll
 <h1 class="text-3xl font-bold mb-6">🔑 主辦人帳號管理</h1>
 
 <?php if ($msg): ?>
-<div class="alert <?= str_starts_with($msg,'✅') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
+<div class="alert <?= str_starts_with($msg,'✔') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
 <?php endif; ?>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

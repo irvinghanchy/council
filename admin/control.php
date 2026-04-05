@@ -50,7 +50,7 @@ $mid = $meeting['id'];
   <!-- 目前階段 -->
   <div class="card bg-base-100 shadow">
     <div class="card-body p-4">
-      <h3 class="font-bold mb-2">⏱️ 目前階段</h3>
+      <h3 class="font-bold mb-2">🕐 目前階段</h3>
       <div id="current-phase" class="badge badge-lg badge-primary text-sm mb-3">載入中...</div>
       <div id="current-item-title" class="text-sm text-gray-600 font-medium"></div>
 
@@ -307,7 +307,7 @@ function updateUI(data) {
     const phaseNames = {
         standby:'⏳ 待機／簽到', agenda:'📣 議程',
         resolution:'🪧 表決', election:'🏆 選舉',
-        temp_motion:'📝 臨時動議', ended:'✅ 已結束'
+        temp_motion:'📝 臨時動議', ended:'✔ 已結束'
     };
     document.getElementById('current-phase').textContent = phaseNames[phase.phase_type] || phase.phase_type;
     document.getElementById('current-item-title').textContent = item ? item.title : '';
@@ -395,7 +395,7 @@ function updateUI(data) {
            <div class="flex gap-1">
              ${s.status === 'waiting' ?
                `<button onclick="speechAction(${s.id},'speaking')" class="btn btn-xs btn-success">▶</button>` :
-               `<button onclick="speechAction(${s.id},'done')" class="btn btn-xs btn-ghost">✓</button>`}
+               `<button onclick="speechAction(${s.id},'done')" class="btn btn-xs btn-ghost">✔</button>`}
              <button onclick="speechAction(${s.id},'removed')" class="btn btn-xs btn-error btn-outline">✕</button>
            </div>
          </div>`
@@ -489,8 +489,8 @@ async function updateMotionsList() {
           <div class="font-semibold">${escHtml(m.content)}</div>
           <div class="text-xs text-gray-500 mb-2">提案：${escHtml(m.proposer||'—')}</div>
           <div class="flex gap-1 flex-wrap">
-            <button onclick="reviewMotion(${m.id},'accepted','temp')" class="btn btn-xs btn-success">✅ 受理（討論）</button>
-            <button onclick="reviewMotion(${m.id},'accepted','resolution')" class="btn btn-xs btn-warning">🗳️ 受理（表決）</button>
+            <button onclick="reviewMotion(${m.id},'accepted','temp')" class="btn btn-xs btn-success">✔ 受理（討論）</button>
+            <button onclick="reviewMotion(${m.id},'accepted','resolution')" class="btn btn-xs btn-warning">🪧 受理（表決）</button>
             <button onclick="reviewMotion(${m.id},'rejected','')" class="btn btn-xs btn-error btn-outline">❌ 不受理</button>
           </div>
          </div>`
