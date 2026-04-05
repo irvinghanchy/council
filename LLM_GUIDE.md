@@ -366,3 +366,58 @@ log_event($meeting_id, 'resolution_closed', [..., 'passed' => $passed]);
 ---
 
 *本文件由系統初始建置時自動產生，版本對應：2026 年 4 月*
+
+---
+
+## 十五、2026/4 版本更新記錄
+
+### 新增功能
+
+**計時器（Timer）**
+- `api/timer.php`：主辦人 POST start/stop 控制
+- `phase_control` 表新增 `timer_end_at`、`timer_label` 欄位
+- `build_status()` 回傳 `timer: {end_ts, label}`，使用 Unix timestamp 避免時區問題
+- 大螢幕顯示倒數，歸零後顯示正數紅字直到主辦人停止
+
+**會議歷經時間**
+- `meeting` 表新增 `actual_start_at`、`actual_end_at`
+- `build_status()` 的 `meeting` 欄位包含這兩個時間戳
+- 前端用 `data.meeting.actual_start_at`（字串）轉 Date 計算差值
+- 結束會議時自動觸發 TXT 下載
+
+**臨時動議改進**
+- 受理時主辦人可選類型（討論/表決），`api/motion.php` 接收 `motion_type` 參數
+- `build_status()` 新增 `motion_info`（提案人姓名/職稱），大螢幕顯示
+- 送出後清空欄位，3 秒後提示消失
+
+**選舉改進**
+- 候選人支援逗號分隔大量匯入
+- 快速加入從名單填入欄位（不自動送出）
+- `api/status.php` 根據 session member_id 回傳 `my_election_voted`，解決跨選舉殘留
+- `member/index.php` 改用 `myElecVotedItems[agenda_item_id]` 字典追蹤各選舉投票狀態
+
+**議員可自行結束發言**
+- `api/speech.php` update action：`status=done` 且帶 `member_id` 時，允許發言者本人操作，無需主辦人
+
+**批次新增議程**
+- `admin/agenda.php` 新增 `batch_agenda` action
+- 格式：`type, 標題, 說明, 排序, 席次`
+
+### 修正的 Bug
+
+| Bug | 修正位置 |
+|-----|----------|
+| 按鈕跳動 | `assets/custom.css` 覆蓋 `.btn` transform |
+| 臨時動議受理 SQL 參數數不符 | `api/motion.php` INSERT VALUES 補 `?` |
+| 結束會議後 Admin 仍顯示進行中 | `control.php` setPhase('ended') 後 redirect |
+| Timer 時區偏差 | 改用 Unix timestamp (`end_ts`) 傳給 JS |
+| 列席人已簽到無鮮明顏色 | screen 拆成 `status-observer-present/absent` |
+| Chrome 擴充功能殘留錯誤 | 攔截 `unhandledrejection` |
+
+### 重要資料流變更
+
+`api/status.php` 回傳結構新增欄位：
+- `timer: { end_ts: int|null, label: string|null }`
+- `motion_info: { content, proposer_name, proposer_position } | null`
+- `my_election_voted: bool`（僅議員 session 時有效）
+- `meeting.actual_start_at / actual_end_at`
