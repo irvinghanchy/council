@@ -177,8 +177,21 @@ function build_status(int $meeting_id): array {
         'label'  => $phase['timer_label'] ?? null,
     ];
 
+    // 臨時動議提案人（當 phase 為 temp_motion 且有 agenda_item 時）
+    $motion_info = null;
+    if ($phase['phase_type'] === 'temp_motion' && $phase['agenda_item_id']) {
+        $mq = $pdo->prepare(
+            "SELECT tm.content, m.name AS proposer_name, m.position AS proposer_position
+            FROM temp_motions tm
+            LEFT JOIN members m ON m.id = tm.member_id
+            WHERE tm.agenda_item_id = ? LIMIT 1"
+        );
+        $mq->execute([$phase['agenda_item_id']]);
+        $motion_info = $mq->fetch() ?: null;
+    }
+
     return compact(
-        'meeting', 'phase', 'item', 'election', 'candidates','timer',
+        'meeting', 'phase', 'item', 'election', 'candidates','timer',  'motion_info',
         'vote_stats', 'members', 'speech_queue', 'pending_motions', 'agenda_list'
     );
 }

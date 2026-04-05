@@ -212,6 +212,12 @@ function updateScreen(data) {
     document.getElementById('phase-item-title').textContent = item?.title || '';
     document.getElementById('phase-item-desc').textContent  = item?.description || '';
 
+    // 臨時動議提案人
+    const descEl = document.getElementById('phase-item-desc');
+    if (phase.phase_type === 'temp_motion' && data.motion_info?.proposer_name) {
+        descEl.textContent = `提案人：${data.motion_info.proposer_name}（${data.motion_info.proposer_position||''}）`;
+    }
+
     // Vote bar
     const vBar = document.getElementById('vote-bar');
     const eBar = document.getElementById('election-bar');
