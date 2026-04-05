@@ -37,6 +37,7 @@ $meeting = active_meeting();
         <?php if (current_role() === 'admin'): ?>
         <li><a href="<?= BASE_URL ?>/admin/hosts.php">🔑 主辦人帳號</a></li>
         <?php endif; ?>
+      <li><a href="<?= BASE_URL ?>/admin/history.php" class="hover:bg-blue-800 rounded-lg">📚 歷次會議</a></li>
       </ul>
     </div>
     <a href="<?= BASE_URL ?>/admin/index.php" class="btn btn-ghost text-xl font-bold">
@@ -63,6 +64,7 @@ $meeting = active_meeting();
       <?php if (current_role() === 'admin'): ?>
       <li><a href="<?= BASE_URL ?>/admin/hosts.php" class="hover:bg-blue-800 rounded-lg">🔑 主辦人</a></li>
       <?php endif; ?>
+      <li><a href="<?= BASE_URL ?>/admin/history.php" class="hover:bg-blue-800 rounded-lg">📚 歷次會議</a></li>
     </ul>
   </div>
   <div class="navbar-end gap-2">

@@ -1,5 +1,5 @@
 <?php
-$page_title = '成員管理';
+$page_title = '與會成員管理';
 require_once __DIR__ . '/../includes/admin_layout.php';
 
 if (!$meeting) {
@@ -92,7 +92,7 @@ $observers->execute([$mid]);
 $observers = $observers->fetchAll();
 ?>
 
-<h1 class="text-3xl font-bold mb-2">👥 成員管理</h1>
+<h1 class="text-3xl font-bold mb-2">👥 與會成員管理</h1>
 <p class="text-gray-500 mb-6">
   出席人（議員）<?= count($attendees) ?> 位 &nbsp;|&nbsp; 列席人 <?= count($observers) ?> 位
 </p>
