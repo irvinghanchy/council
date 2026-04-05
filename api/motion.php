@@ -27,9 +27,12 @@ if ($action === 'submit') {
 // ── 主辦人審核動議 ───────────────────────────────────────────
 if ($action === 'review') {
     require_host();
-    $id     = (int)($_POST['id'] ?? 0);
-    $status = $_POST['status'] ?? '';
+    $id          = (int)($_POST['id'] ?? 0);
+    $status      = $_POST['status'] ?? '';
+    $motion_type = $_POST['motion_type'] ?? 'temp';
+
     if (!in_array($status, ['accepted','rejected'])) json_err('Invalid status');
+    if (!in_array($motion_type, ['temp','resolution','report'])) $motion_type = 'temp';
 
     $motion = $pdo->prepare("SELECT * FROM temp_motions WHERE id=? AND meeting_id=?");
     $motion->execute([$id, $meeting_id]);
@@ -39,30 +42,34 @@ if ($action === 'review') {
     $agenda_item_id = null;
 
     if ($status === 'accepted') {
-        // 自動建立 agenda_item（type=temp）
-        $max_order = $pdo->prepare("SELECT COALESCE(MAX(order_no),0)+1 FROM agenda_items WHERE meeting_id=?");
+        $max_order = $pdo->prepare(
+            "SELECT COALESCE(MAX(order_no),0)+1 FROM agenda_items WHERE meeting_id=?"
+        );
         $max_order->execute([$meeting_id]);
         $order = (int)$max_order->fetchColumn();
 
-        $pdo->prepare(
-            "INSERT INTO agenda_items (meeting_id,type,title,description,order_no,source)
-             VALUES (?,'temp',?,?,?,'motion')"
-        )->execute([$meeting_id, '臨時動議：' . mb_substr($motion['content'], 0, 50), $motion['content'], $order]);        $agenda_item_id = (int)$pdo->lastInsertId();
+        // 議程 type：report 也存成 temp（統一歸在臨時動議），resolution 單獨處理
+        $item_type = ($motion_type === 'resolution') ? 'resolution' : 'temp';
 
         $pdo->prepare(
-            "INSERT INTO agenda_items (meeting_id,type,title,description,order_no,source)
-             VALUES (?,?,?,?,?,'motion')"
-        )->execute([$meeting_id, $motion_type,
+            "INSERT INTO agenda_items
+             (meeting_id, type, title, description, order_no, source)
+             VALUES (?, ?, ?, ?, ?, 'motion')"
+        )->execute([
+            $meeting_id,
+            $item_type,
             '臨時動議：' . mb_substr($motion['content'], 0, 50),
-            $motion['content'], $order]);
+            $motion['content'],
+            $order,
+        ]);
         $agenda_item_id = (int)$pdo->lastInsertId();
 
-        // 若是表決，補建 resolution 記錄
-        if ($motion_type === 'resolution') {
-            $pdo->prepare("INSERT INTO resolutions (agenda_item_id) VALUES (?)")
-                ->execute([$agenda_item_id]);
+        // 表決用：補建 resolutions 記錄，投票功能才能正常運作
+        if ($item_type === 'resolution') {
+            $pdo->prepare(
+                "INSERT INTO resolutions (agenda_item_id) VALUES (?)"
+            )->execute([$agenda_item_id]);
         }
-
     }
 
     $pdo->prepare(
@@ -72,9 +79,11 @@ if ($action === 'review') {
     log_event($meeting_id, 'motion_reviewed', [
         'motion_id'      => $id,
         'status'         => $status,
+        'motion_type'    => $motion_type,
         'agenda_item_id' => $agenda_item_id,
     ]);
 
+    // 回傳 agenda_item_id，讓前端 reviewMotion() 可以自動切換階段
     json_ok(['agenda_item_id' => $agenda_item_id]);
 }
 

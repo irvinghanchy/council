@@ -406,8 +406,17 @@ function updateUI(data) {
     const mc = document.getElementById('motion-count');
     mc.textContent = pending_motions;
     ma.classList.toggle('hidden', pending_motions === 0);
+    // 只在數量有變化時才重新拉取清單（避免每 2 秒覆蓋）
+    if (pending_motions !== prevCount) {
+        updateMotionsList();
+    }
 
-    updateMotionsList();
+
+    // updateMotionsList();
+    // const ma = document.getElementById('motion-alert');
+    // document.getElementById('motion-count').textContent = pending_motions;
+    // ma.classList.toggle('hidden', pending_motions === 0);
+
 }
 
 // ── Phase Control ──────────────────────────────────────────────
@@ -476,12 +485,12 @@ async function updateMotionsList() {
         return;
     }
     el.innerHTML = d.data.map(m =>
-        `<div class="bg-base-200 rounded p-2 text-sm">
-           <div class="font-semibold">${escHtml(m.content)}</div>
-           <div class="text-xs text-gray-500 mb-2">提案：${escHtml(m.proposer||'—')}</div>
+        `<div id="motion-${m.id}" class="bg-base-200 rounded p-2 text-sm">
+          <div class="font-semibold">${escHtml(m.content)}</div>
+          <div class="text-xs text-gray-500 mb-2">提案：${escHtml(m.proposer||'—')}</div>
           <div class="flex gap-1 flex-wrap">
             <button onclick="reviewMotion(${m.id},'accepted','temp')" class="btn btn-xs btn-success">✅ 受理（討論）</button>
-            <button onclick="reviewMotion(${m.id},'accepted','resolution')" class="btn btn-xs btn-warning">🪧 受理（表決）</button>
+            <button onclick="reviewMotion(${m.id},'accepted','resolution')" class="btn btn-xs btn-warning">🗳️ 受理（表決）</button>
             <button onclick="reviewMotion(${m.id},'rejected','')" class="btn btn-xs btn-error btn-outline">❌ 不受理</button>
           </div>
          </div>`
@@ -489,11 +498,24 @@ async function updateMotionsList() {
 }
 
 async function reviewMotion(id, status, motionType) {
-    await fetch(`${BASE_URL}/api/motion.php`, {
+    // 先從畫面移除，不等 server（樂觀更新）
+    const el = document.getElementById(`motion-${id}`);
+    if (el) el.remove();
+
+    const res = await fetch(`${BASE_URL}/api/motion.php`, {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: `action=review&id=${id}&status=${status}&meeting_id=${MEETING_ID}&motion_type=${encodeURIComponent(motionType)}`
     });
+    const d = await res.json();
+
+    // 若受理，自動切換到新建立的議程
+    if (status === 'accepted' && d.data?.agenda_item_id) {
+        const phaseMap = { resolution: 'resolution', temp: 'agenda', report: 'agenda' };
+        await setPhase(phaseMap[motionType] || 'agenda', d.data.agenda_item_id);
+    }
+
+    // 更新剩餘待審名單
     updateMotionsList();
 }
 
@@ -516,6 +538,7 @@ function escHtml(s) {
 }
 
 poll();
+updateMotionsList();
 
 let meetingStartAt = null;
 let meetingEndAt   = null;

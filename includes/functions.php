@@ -179,14 +179,15 @@ function build_status(int $meeting_id): array {
 
     // 臨時動議提案人（當 phase 為 temp_motion 且有 agenda_item 時）
     $motion_info = null;
-    if ($phase['phase_type'] === 'temp_motion' && $phase['agenda_item_id']) {
+    if ($phase['phase_type'] === 'temp_motion') {
         $mq = $pdo->prepare(
             "SELECT tm.content, m.name AS proposer_name, m.position AS proposer_position
-            FROM temp_motions tm
-            LEFT JOIN members m ON m.id = tm.member_id
-            WHERE tm.agenda_item_id = ? LIMIT 1"
+             FROM temp_motions tm
+             LEFT JOIN members m ON m.id = tm.member_id
+             WHERE tm.meeting_id = ?
+             ORDER BY tm.submitted_at DESC LIMIT 1"
         );
-        $mq->execute([$phase['agenda_item_id']]);
+        $mq->execute([$meeting_id]);
         $motion_info = $mq->fetch() ?: null;
     }
 
@@ -264,7 +265,8 @@ function export_txt(int $meeting_id): string {
     $section_no = [];
 
     foreach ($items as $it) {
-        $section = $type_labels[$it['type']] ?? '其他';
+        $section = ($it['source'] === 'motion') ? '臨時動議'
+                 : ($type_labels[$it['type']] ?? '其他');
         if ($section !== $current_section) {
             $out .= "▌" . $section . "\n";
             $current_section = $section;
@@ -272,6 +274,22 @@ function export_txt(int $meeting_id): string {
         $no = ($section_no[$section] = ($section_no[$section] ?? 0) + 1);
         $out .= "  " . $no . "、" . $it['title'] . "\n";
         if ($it['description']) $out .= "     說明：" . $it['description'] . "\n";
+
+        // 臨時動議：顯示提案人
+        if ($it['source'] === 'motion') {
+            $proposer = $pdo->prepare(
+                "SELECT m.name, m.position
+                 FROM temp_motions tm
+                 LEFT JOIN members m ON m.id = tm.member_id
+                 WHERE tm.agenda_item_id = ? LIMIT 1"
+            );
+            $proposer->execute([$it['id']]);
+            $proposer = $proposer->fetch();
+            if ($proposer && $proposer['name']) {
+                $out .= "     提案人：" . $proposer['name']
+                      . "（" . $proposer['position'] . "）\n";
+            }
+        }
 
         if ($it['type'] === 'resolution') {
             // fetch vote results
