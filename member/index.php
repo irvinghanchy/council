@@ -340,11 +340,35 @@ function updateCandidatesUI(candidates, closed, alreadyVoted) {
         return;
     }
 
-    el.innerHTML = candidates.map(c =>
-        `<label class="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-base-200">
-           <input type="checkbox" class="checkbox checkbox-primary"
+el.innerHTML = candidates.map(c =>
+        `<label class="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-base-200 has-[:checked]:bg-blue-50 has-[:checked]:border-blue-300 transition-colors">
+           <input type="checkbox" class="peer sr-only"
                   value="${c.id}" onchange="toggleCandidate(${c.id}, this.checked)"
                   ${selectedCandidates.has(c.id) ? 'checked' : ''}>
+           
+           <div class="w-6 h-6 border-2 border-gray-300 rounded peer-checked:hidden flex-shrink-0"></div>
+
+           <svg class="w-6 h-6 hidden peer-checked:block text-blue-600 flex-shrink-0 rotate-[0.3rad] overflow-visible" 
+               xmlns="http://www.w3.org/2000/svg" 
+               viewBox="0 0 130 130" 
+               fill="none" 
+               stroke="currentColor" 
+               stroke-width="8" 
+               stroke-linecap="round" 
+               stroke-linejoin="round">
+
+             <g transform="translate(1, 1)">
+               <path d="M -17.328915,71.896553 A 26.915119,27.283819 0 1 1 -71.159153,71.896553 A 26.915119,27.283819 0 1 1 -17.328915,71.896553 z" 
+                     transform="matrix(2.2424996,0,0,2.2121955,164.21723,-94.049231)" 
+                     style="fill:none; stroke:currentColor;" />
+               <g fill="currentColor" stroke="none">
+                 <rect width="18" height="126" x="60" y="2"/>
+                 <rect width="18" height="69" x="-99.852814" y="-5" 
+                       transform="matrix(-0.7071068,-0.7071068,-0.7071068,0.7071068,0,0)"/>
+               </g>
+             </g>
+           </svg>
+
            <span class="font-medium">${escHtml(c.name)}</span>
          </label>`
     ).join('');

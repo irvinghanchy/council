@@ -6,8 +6,7 @@ require_host();
 
 $meeting_id    = (int)($_POST['meeting_id'] ?? 0);
 $type          = $_POST['type'] ?? '';
-$agenda_item_id = $_POST['agenda_item_id'] ? (int)$_POST['agenda_item_id'] : null;
-
+$agenda_item_id = !empty($_POST['agenda_item_id']) ? (int)$_POST['agenda_item_id'] : null;
 $allowed_types = ['standby','agenda','resolution','election','temp_motion','ended'];
 if (!$meeting_id || !in_array($type, $allowed_types)) json_err('Invalid params');
 
@@ -21,6 +20,12 @@ if ($agenda_item_id && in_array($type, ['agenda','resolution','election'])) {
 }
 
 // 若切換離開某個 open 的議程（換到別項），不自動關閉，讓截止按鈕控制
+
+if ($type === 'standby') {
+    $pdo->prepare(
+        "UPDATE meeting SET status='active', actual_start_at=NOW() WHERE id=? AND status='preparing'"
+    )->execute([$meeting_id]);
+}
 
 // 若結束會議，同步更新 meeting status
 if ($type === 'ended') {

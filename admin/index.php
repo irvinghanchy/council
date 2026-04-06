@@ -61,11 +61,15 @@ if ($mtg) {
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <?php if ($mtg['status'] === 'preparing'): ?>
-        <form method="POST" action="<?= BASE_URL ?>/api/phase.php">
+        <button class="btn btn-success btn-sm"
+                onclick="startMeeting(<?= $mtg['id'] ?>)">
+          ▶ 開始會議
+        </button>
+        <!-- <form method="POST" action="<?= BASE_URL ?>/api/phase.php">
           <input type="hidden" name="meeting_id" value="<?= $mtg['id'] ?>">
           <input type="hidden" name="type" value="standby">
           <button class="btn btn-success btn-sm">▶ 開始會議</button>
-        </form>
+        </form> -->
       <?php elseif ($mtg['status'] === 'active'): ?>
         <a href="<?= BASE_URL ?>/admin/control.php" class="btn btn-primary btn-sm">🛑 現場控制台</a>
         <a href="<?= BASE_URL ?>/screen/index.php?pin=<?= SCREEN_PIN ?>" target="_blank" class="btn btn-outline btn-sm">📺 大螢幕</a>
@@ -145,5 +149,15 @@ if ($mtg) {
   [style*="grid-column:span 2"] { grid-column: span 2 !important; }
 }
 </style>
+<script>
+async function startMeeting(meetingId) {
+    await fetch('<?= BASE_URL ?>/api/phase.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `meeting_id=${meetingId}&type=standby`
+    });
+    window.location.href = '<?= BASE_URL ?>/admin/control.php';
+}
+</script>
 
 </div></body></html>
