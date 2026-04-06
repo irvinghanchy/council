@@ -36,13 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdo->prepare("INSERT INTO elections (agenda_item_id,seats) VALUES (?,?)")
                     ->execute([$new_id, $seats]);
             }
-            $msg = "✔ 已新增議程：{$title}";
+            $msg = "✅ 已新增議程：{$title}";
         }
     }
 
     if ($action === 'delete_item') {
         $pdo->prepare("DELETE FROM agenda_items WHERE id=? AND meeting_id=?")->execute([$_POST['id'], $mid]);
-        $msg = '✔ 已刪除。';
+        $msg = '✅ 已刪除。';
     }
 
     if ($action === 'reorder') {
@@ -65,13 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdo->prepare("INSERT INTO candidates (election_id,name,member_id) VALUES (?,?,?)")
                     ->execute([$election_id, $name, $member_id]);
             }
-            $msg = "✔ 已新增候選人：" . implode('、', $names);
+            $msg = "✅ 已新增候選人：" . implode('、', $names);
         }
     }
 
     if ($action === 'delete_candidate') {
         $pdo->prepare("DELETE FROM candidates WHERE id=?")->execute([$_POST['candidate_id']]);
-        $msg = '✔ 已刪除候選人。';
+        $msg = '✅ 已刪除候選人。';
     }
 
     if ($action === 'set_elected') {
@@ -83,6 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'batch_agenda') {
         $lines = explode("\n", $_POST['batch_agenda_data'] ?? '');
         $ok = 0; $fail = 0;
+        // 取目前最大 order_no，自動接續編號
+        $max_q = $pdo->prepare("SELECT COALESCE(MAX(order_no),0) FROM agenda_items WHERE meeting_id=?");
+        $max_q->execute([$mid]);
+        $auto_order = (int)$max_q->fetchColumn();
+
         foreach ($lines as $line) {
             $line = trim($line);
             if (!$line) continue;
@@ -90,7 +95,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $type  = strtolower($parts[0] ?? '');
             $title = $parts[1] ?? '';
             $desc  = $parts[2] ?? '';
-            $order = (int)($parts[3] ?? 0);
+            $order_raw = $parts[3] ?? '';
+            // 若未填順序或填 0，自動接續編號
+            if ($order_raw === '' || (int)$order_raw === 0) {
+                $auto_order++;
+                $order = $auto_order;
+            } else {
+                $order = (int)$order_raw;
+                $auto_order = max($auto_order, $order);
+            }
             $seats = max(1, (int)($parts[4] ?? 1));
             if (!in_array($type, ['report','resolution','election','temp']) || !$title) {
                 $fail++; continue;
@@ -108,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $ok++;
         }
-        $msg = "✔ 批次匯入：成功 {$ok} 筆，失敗 {$fail} 筆。";
+        $msg = "✅ 批次匯入：成功 {$ok} 筆，失敗 {$fail} 筆。";
     }
 }
 
@@ -139,7 +152,7 @@ $type_labels = [
 <h1 class="text-3xl font-bold mb-6">📋 議程管理</h1>
 
 <?php if ($msg): ?>
-<div class="alert <?= str_starts_with($msg,'✔') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
+<div class="alert <?= str_starts_with($msg,'✅') ? 'alert-success' : 'alert-error' ?> mb-4"><?= h($msg) ?></div>
 <?php endif; ?>
 
 <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -289,7 +302,7 @@ election, 選舉常務代表, , 4, 3"></textarea>
               <div class="flex gap-2 mb-2">
                 <input id="cand-input-<?= $eid ?>" name="cand_name" type="text"
                       class="input input-bordered input-xs flex-1"
-                      placeholder="候選人（用逗號分隔多人，例：候選人一, 候選人二, 候選人三）">
+                      placeholder="候選人（用逗號分隔多人，例：歐志昌, 賴清德, 何大帥）">
                 <button class="btn btn-xs btn-secondary">新增</button>
               </div>
               <!-- 快速從名單加入：點選後填入欄位 -->
