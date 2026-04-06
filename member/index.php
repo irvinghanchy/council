@@ -44,7 +44,7 @@ $meeting = db()->prepare("SELECT * FROM meeting WHERE id=?")->execute([$mid])
         議事系統
       </span>
     </span>
-    <span class="text-blue-300 text-sm ml-3">
+    <span class="text-blue-400 text-sm ml-3">
       <?= h($name) ?>
       <?= $role === 'observer' ? '<span class="badge badge-sm badge-secondary ml-1">列席</span>' : '' ?>
     </span>

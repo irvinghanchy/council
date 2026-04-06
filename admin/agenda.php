@@ -289,7 +289,7 @@ election, 選舉常務代表, , 4, 3"></textarea>
               <div class="flex gap-2 mb-2">
                 <input id="cand-input-<?= $eid ?>" name="cand_name" type="text"
                       class="input input-bordered input-xs flex-1"
-                      placeholder="候選人（可逗號分隔多人，例：王小明, 李小華）">
+                      placeholder="候選人（用逗號分隔多人，例：候選人一, 候選人二, 候選人三）">
                 <button class="btn btn-xs btn-secondary">新增</button>
               </div>
               <!-- 快速從名單加入：點選後填入欄位 -->

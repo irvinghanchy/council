@@ -76,7 +76,7 @@ if ($action === 'activate' && $meeting) {
         <div class="label"><span class="label-text font-semibold">會議名稱 *</span></div>
         <input name="title" type="text" class="input input-bordered"
                value="<?= h($meeting['title'] ?? '') ?>"
-               placeholder="例：114學年度第2學期期初常會" required>
+               placeholder="例：學生議會114學年度第2學期期初常會" required>
       </label>
 
       <label class="form-control">
